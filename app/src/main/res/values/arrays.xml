@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="onboarding_captions">
+        <item>View your top artists, albums and tracks in one place</item>
+        <item>Get personalized recommendations to expand your music taste</item>
+        <item>Pick a genre, mood or time period and get algorithm-curated playlists</item>
+    </string-array>
+
+</resources>
