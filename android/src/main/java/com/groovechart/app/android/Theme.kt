@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.view.WindowCompat
 
 @OptIn(ExperimentalTextApi::class)
 @Composable
@@ -32,8 +33,8 @@ fun GroovechartTheme(
         surfaceVariant = Color(0XFFF2F2F2)
     )
 
-    val Queering = FontFamily(Font(R.font.queering))
-    val Inter = FontFamily(
+    val queeringFontFamily = FontFamily(Font(R.font.queering))
+    val interFontFamily = FontFamily(
         Font(
             resId = R.font.inter_variable,
             variationSettings = FontVariation.Settings(
@@ -56,39 +57,39 @@ fun GroovechartTheme(
 
     val typography = Typography(
         displayLarge = TextStyle(
-            fontFamily = Queering,
+            fontFamily = queeringFontFamily,
             fontSize = 74.sp
         ),
         displayMedium = TextStyle(
-            fontFamily = Queering,
+            fontFamily = queeringFontFamily,
             fontSize = 45.sp
         ),
         displaySmall = TextStyle(
-            fontFamily = Queering,
+            fontFamily = queeringFontFamily,
             fontSize = 26.sp
         ),
         headlineSmall = TextStyle(
-            fontFamily = Inter,
+            fontFamily = interFontFamily,
             fontWeight = FontWeight.Medium,
             fontSize = 20.sp
         ),
         bodyMedium = TextStyle(
-            fontFamily = Inter,
+            fontFamily = interFontFamily,
             fontWeight = FontWeight.Normal,
             fontSize = 17.sp
         ),
         bodySmall = TextStyle(
-            fontFamily = Inter,
+            fontFamily = interFontFamily,
             fontWeight = FontWeight.Normal,
             fontSize = 14.sp
         ),
         labelLarge = TextStyle(
-            fontFamily = Inter,
+            fontFamily = interFontFamily,
             fontWeight = FontWeight.Medium,
             fontSize = 15.sp
         ),
         labelMedium = TextStyle(
-            fontFamily = Inter,
+            fontFamily = interFontFamily,
             fontWeight = FontWeight.Light,
             fontSize = 15.sp
         )

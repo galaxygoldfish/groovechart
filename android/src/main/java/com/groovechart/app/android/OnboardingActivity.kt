@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
@@ -36,14 +37,22 @@ import androidx.compose.ui.platform.WindowInfo
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowCompat
 import com.groovechart.app.Greeting
 
 class OnboardingActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        WindowCompat.getInsetsController(window, window.decorView)
+            .isAppearanceLightStatusBars = true
+
         setContent {
             GroovechartTheme {
-                Box(modifier = Modifier.fillMaxSize()) {
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                ) {
                     Image(
                         painter = painterResource(R.drawable.onboarding_background),
                         contentDescription = stringResource(R.string.cdesc_onboarding_background),
@@ -52,7 +61,7 @@ class OnboardingActivity : ComponentActivity() {
                     )
                     Column(
                         modifier = Modifier.fillMaxSize()
-                            .navigationBarsPadding()
+                            .systemBarsPadding()
                             .padding(horizontal = 20.dp),
                         verticalArrangement = Arrangement.Bottom
                     ) {
