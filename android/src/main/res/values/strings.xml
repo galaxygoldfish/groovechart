@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Groovechart</string>
+
+    <!-- Content descriptions -->
+    <string name="cdesc_onboarding_background">Pastel-colored blue to purple gradient</string>
+    <string name="cdesc_groovechart_mark">Globe (the Groovechart logo)</string>
+    <string name="cdesc_icon_spotify">Spotify icon</string>
+
+    <!-- Welcome activity -->
+    <string name="welcome_subtitle">View your Spotify stats, friend activity, and expand your taste through generated playlists</string>
+    <string name="welcome_proceed_button_label">Log in with Spotify</string>
+
+    <!-- Main activity (home, friends, recommendations tabs) -->
+
+    <!-- Playlist generation flow -->
+
+    <!-- Settings flow -->
+
+</resources>
