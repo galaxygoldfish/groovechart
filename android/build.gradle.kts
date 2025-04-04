@@ -44,5 +44,6 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.compose.navigation)
     implementation(libs.androidx.foundation.android)
+    implementation(libs.mmkv)
     debugImplementation(libs.compose.ui.tooling)
 }
