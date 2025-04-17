@@ -46,4 +46,5 @@ dependencies {
     implementation(libs.androidx.foundation.android)
     implementation(libs.mmkv)
     debugImplementation(libs.compose.ui.tooling)
+    implementation(libs.spotify.auth)
 }

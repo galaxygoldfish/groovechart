@@ -46,6 +46,9 @@ class MainActivity : ComponentActivity() {
             composable(NavDestinationKey.Onboarding) {
                 OnboardingView()
             }
+            composable(NavDestinationKey.Home) {
+
+            }
         }
     }
 

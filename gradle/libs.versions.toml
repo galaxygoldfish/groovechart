@@ -1,14 +1,20 @@
 [versions]
 agp = "8.9.1"
+appRemote = "0.7.2"
+auth = "2.0.0"
+authVersion = "1.2.5"
 kotlin = "2.0.0"
 compose = "1.7.8"
-compose-material3 = "1.3.1"
+compose-material3 = "1.3.2"
 androidx-activityCompose = "1.10.1"
 nav-version = "2.8.9"
 foundationAndroid = "1.7.8"
 mmkv = "2.1.0"
 
 [libraries]
+auth-v125 = { module = "com.spotify.android:auth", version.ref = "authVersion" }
+spotify-app-remote = { module = "com.spotify.android:app-remote", version.ref = "appRemote" }
+spotify-auth = { module = "com.spotify.android:auth", version.ref = "auth" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
