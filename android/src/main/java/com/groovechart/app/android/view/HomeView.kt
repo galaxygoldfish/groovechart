@@ -54,6 +54,7 @@ import com.groovechart.app.android.component.ActionButton
 import com.groovechart.app.android.component.ButtonSize
 import com.groovechart.app.android.component.ButtonVariant
 import com.groovechart.app.android.component.LargeButton
+import com.groovechart.app.android.consts.PageNavigationKey
 import com.groovechart.app.android.view.page.HomePage
 import com.groovechart.app.android.viewmodel.HomeViewModel
 
@@ -203,14 +204,14 @@ fun HomeView() {
                                     .padding(start = if (index == 0) 25.dp else 0.dp)
                                     .clip(RoundedCornerShape(5.dp))
                                     .background(
-                                        if (viewModel.currentNavDestination == index) {
+                                        if (viewModel.currentPage == index) {
                                             MaterialTheme.colorScheme.onBackground
                                         } else {
                                             Color.Transparent
                                         }
                                     )
                                     .clickable {
-                                        viewModel.currentNavDestination = index
+                                        viewModel.currentPage = index
                                     },
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
@@ -220,14 +221,14 @@ fun HomeView() {
                                     modifier = Modifier
                                         .padding(vertical = 7.dp, horizontal = 5.dp)
                                         .size(30.dp),
-                                    tint = if (viewModel.currentNavDestination == index) {
+                                    tint = if (viewModel.currentPage == index) {
                                         MaterialTheme.colorScheme.background
                                     } else {
                                         MaterialTheme.colorScheme.onBackground
                                     }
                                 )
                                 AnimatedContent(
-                                    targetState = viewModel.currentNavDestination == index,
+                                    targetState = viewModel.currentPage == index,
                                     label = "bottom-nav-label",
                                     transitionSpec = {
                                         if (targetState) {
@@ -259,8 +260,8 @@ fun HomeView() {
                 content = { contentPadding ->
                     Column(modifier = Modifier.padding(contentPadding)) {
                         // Transition where it slides left or right in future
-                        when (viewModel.currentNavDestination) {
-                            0 -> HomePage(viewModel)
+                        when (viewModel.currentPage) {
+                            PageNavigationKey.Home -> HomePage(viewModel)
                             else -> { }
                         }
                     }

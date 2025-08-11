@@ -1,5 +1,9 @@
 package com.groovechart.app.android.consts
 
+/**
+ * Constant variables that describe the Composables that can be navigated to
+ * in the entire app-level navigation host.
+ */
 object NavDestinationKey {
     const val Onboarding = "onboarding"
     const val Home = "home"
