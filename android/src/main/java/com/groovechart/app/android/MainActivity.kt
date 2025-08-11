@@ -85,6 +85,7 @@ class MainActivity : ComponentActivity() {
                 encode(PreferenceKey.AUTH_TOKEN, token)
                 encode(PreferenceKey.ONBOARDING_COMPLETE, true)
             }
+            navigationController.navigate(NavDestinationKey.Home)
         }
         // TODO: Error handling when the access token is not provided in response
     }
