@@ -50,6 +50,8 @@ import coil.request.ImageRequest
 import coil.request.ImageResult
 import com.groovechart.app.android.GroovechartTheme
 import com.groovechart.app.android.R
+import com.groovechart.app.android.component.ActionButton
+import com.groovechart.app.android.component.ButtonSize
 import com.groovechart.app.android.component.ButtonVariant
 import com.groovechart.app.android.component.LargeButton
 import com.groovechart.app.android.view.page.HomePage
@@ -72,38 +74,51 @@ fun HomeView() {
                         .clip(MaterialTheme.shapes.large)
                         .background(MaterialTheme.colorScheme.background)
                 ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        AsyncImage(
-                            model = ImageRequest.Builder(LocalContext.current)
-                                .data(viewModel.currentUser!!.images[0].url)
-                                .crossfade(true)
-                                .build(),
-                            contentDescription = "Profile picture",
-                            modifier = Modifier
-                                .padding(top = 20.dp, start = 20.dp)
-                                .size(100.dp)
-                                .clip(CircleShape)
-                                .clickable(
-                                    onClick = {
-                                        viewModel.showAccountDialog = true
-                                    }
-                                )
-                        )
-                        Column(modifier = Modifier.padding(start = 20.dp)) {
-                            Text(
-                                text = viewModel.currentUser!!.display_name,
-                                style = MaterialTheme.typography.bodyMedium
-                            )
-                            Text(
-                                text = "${viewModel.currentUser!!.followers.total} ${
-                                    stringResource(
-                                        R.string.home_dialog_user_followers
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            AsyncImage(
+                                model = ImageRequest.Builder(LocalContext.current)
+                                    .data(viewModel.currentUser!!.images[0].url)
+                                    .crossfade(true)
+                                    .build(),
+                                contentDescription = "Profile picture",
+                                modifier = Modifier
+                                    .padding(top = 20.dp, start = 20.dp)
+                                    .size(80.dp)
+                                    .clip(CircleShape)
+                                    .clickable(
+                                        onClick = {
+                                            viewModel.showAccountDialog = true
+                                        }
                                     )
-                                }",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onBackground.copy(0.7F)
                             )
+                            Column(modifier = Modifier.padding(start = 20.dp, top = 20.dp)) {
+                                Text(
+                                    text = viewModel.currentUser!!.display_name,
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                                Text(
+                                    text = "${viewModel.currentUser!!.followers.total} ${
+                                        stringResource(
+                                            R.string.home_dialog_user_followers
+                                        )
+                                    }",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onBackground.copy(0.7F)
+                                )
+                            }
                         }
+                        ActionButton(
+                            icon = painterResource(R.drawable.icon_spotify),
+                            contentDescription = stringResource(R.string.cdesc_icon_spotify),
+                            size = ButtonSize.MEDIUM,
+                            onClick = { /* TODO: Open Spotify */ },
+                            modifier = Modifier.padding(top = 20.dp, end = 20.dp)
+                        )
                     }
                     Column(modifier = Modifier.padding(20.dp)) {
                         LargeButton(
@@ -243,7 +258,11 @@ fun HomeView() {
                 },
                 content = { contentPadding ->
                     Column(modifier = Modifier.padding(contentPadding)) {
-                        
+                        // Transition where it slides left or right in future
+                        when (viewModel.currentNavDestination) {
+                            0 -> HomePage(viewModel)
+                            else -> { }
+                        }
                     }
                 }
             )
