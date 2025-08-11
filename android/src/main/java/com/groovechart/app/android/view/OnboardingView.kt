@@ -1,5 +1,8 @@
 package com.groovechart.app.android.view
 
+import android.content.Intent
+import androidx.activity.compose.LocalActivity
+import androidx.activity.result.ActivityResultLauncher
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,13 +18,17 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.groovechart.app.android.GroovechartTheme
 import com.groovechart.app.android.R
 import com.groovechart.app.android.component.ButtonVariant
 import com.groovechart.app.android.component.LargeButton
+import com.groovechart.app.android.viewmodel.OnboardingViewModel
 
 @Composable
 fun OnboardingView() {
+    val viewModel: OnboardingViewModel = viewModel()
+    val parentActivityContext = LocalActivity.current
     GroovechartTheme {
         Box(
             modifier = Modifier.fillMaxSize()
@@ -58,8 +65,12 @@ fun OnboardingView() {
                     icon = painterResource(R.drawable.icon_spotify),
                     contentDescription = stringResource(R.string.cdesc_icon_spotify),
                     variant = ButtonVariant.FILLED,
-                    onClick = {  },
-                    modifier = Modifier.padding(bottom = 10.dp, top = 150.dp)
+                    onClick = {
+                        parentActivityContext?.let {
+                            viewModel.launchUserAuthFlow(it)
+                        }
+                    },
+                    modifier = Modifier.padding(bottom = 20.dp, top = 150.dp)
                 )
             }
         }

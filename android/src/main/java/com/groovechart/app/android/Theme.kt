@@ -28,12 +28,15 @@ fun GroovechartTheme(
     // add if (darkTheme) later
     val colors = lightColorScheme(
         surface = Color.White,
+        background = Color.White,
         inverseOnSurface = Color.White,
         onSurface = Color.Black,
         surfaceVariant = Color(0XFFF2F2F2)
     )
 
-    val queeringFontFamily = FontFamily(Font(R.font.queering))
+    val queeringFontFamily = FontFamily(
+        Font(resId = R.font.queering, weight = FontWeight.Bold)
+    )
     val interFontFamily = FontFamily(
         Font(
             resId = R.font.inter_variable,
@@ -62,7 +65,7 @@ fun GroovechartTheme(
         ),
         displayMedium = TextStyle(
             fontFamily = queeringFontFamily,
-            fontSize = 45.sp
+            fontSize = 55.sp
         ),
         displaySmall = TextStyle(
             fontFamily = queeringFontFamily,
@@ -76,12 +79,12 @@ fun GroovechartTheme(
         bodyMedium = TextStyle(
             fontFamily = interFontFamily,
             fontWeight = FontWeight.Normal,
-            fontSize = 17.sp
+            fontSize = 18.sp
         ),
         bodySmall = TextStyle(
             fontFamily = interFontFamily,
             fontWeight = FontWeight.Normal,
-            fontSize = 14.sp
+            fontSize = 15.sp
         ),
         labelLarge = TextStyle(
             fontFamily = interFontFamily,
@@ -96,7 +99,7 @@ fun GroovechartTheme(
     )
 
     val shapes = Shapes(
-        small = RoundedCornerShape(2.dp),
+        small = RoundedCornerShape(5.dp),
         medium = RoundedCornerShape(4.dp),
         large = RoundedCornerShape(7.dp)
     )

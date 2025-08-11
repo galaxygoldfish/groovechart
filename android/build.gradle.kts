@@ -13,6 +13,8 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
+        manifestPlaceholders["redirectHostName"] = "login"
+        manifestPlaceholders["redirectSchemeName"] = "groovechart"
     }
     buildFeatures {
         compose = true
@@ -47,4 +49,5 @@ dependencies {
     implementation(libs.mmkv)
     debugImplementation(libs.compose.ui.tooling)
     implementation(libs.spotify.auth)
+    implementation(libs.coil.compose)
 }

@@ -7,12 +7,20 @@
     <string name="cdesc_onboarding_background">Pastel-colored blue to purple gradient</string>
     <string name="cdesc_groovechart_mark">Globe (the Groovechart logo)</string>
     <string name="cdesc_icon_spotify">Spotify icon</string>
+    <string name="cdesc_icon_close">Close</string>
+    <string name="cdesc_icon_settings">Settings</string>
+    <string name="cdesc_icon_storefront">Storefront</string>
+    <string name="cdesc_icon_logout">Log out</string>
 
     <!-- Welcome activity -->
     <string name="welcome_subtitle">View your Spotify stats, friend activity, and expand your taste through generated playlists</string>
     <string name="welcome_proceed_button_label">Log in with Spotify</string>
 
     <!-- Main activity (home, friends, recommendations tabs) -->
+    <string name="home_dialog_user_followers">followers</string>
+    <string name="home_dialog_button_settings">Settings</string>
+    <string name="home_dialog_button_app_updates">App updates</string>
+    <string name="home_dialog_button_logout">Log out</string>
 
     <!-- Playlist generation flow -->
 

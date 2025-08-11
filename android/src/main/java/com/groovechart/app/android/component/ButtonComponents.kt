@@ -1,25 +1,62 @@
 package com.groovechart.app.android.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 
 object ButtonVariant {
     const val FILLED = 0
     const val OUTLINED = 1
+}
+
+object ButtonSize {
+    const val SMALL = 0
+    const val MEDIUM = 1
+    const val LARGE = 2
+}
+
+@Composable
+fun ActionButton(
+    icon: Painter,
+    contentDescription: String,
+    size: Int,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .clip(MaterialTheme.shapes.large)
+            .background(MaterialTheme.colorScheme.onSurface)
+            .clickable { onClick.invoke() }
+    ) {
+        Icon(
+            painter = icon,
+            contentDescription = contentDescription,
+            tint = MaterialTheme.colorScheme.inverseOnSurface,
+            modifier = Modifier.padding(10.dp)
+        )
+    }
 }
 
 @Composable
@@ -33,7 +70,7 @@ fun LargeButton(
 ) {
     Button(
         onClick = onClick,
-        colors = ButtonColors(
+        colors = ButtonDefaults.buttonColors(
             containerColor = when (variant) {
                 ButtonVariant.FILLED -> MaterialTheme.colorScheme.onSurface
                 else -> MaterialTheme.colorScheme.surface
@@ -41,9 +78,7 @@ fun LargeButton(
             contentColor = when (variant) {
                 ButtonVariant.FILLED -> MaterialTheme.colorScheme.inverseOnSurface
                 else -> MaterialTheme.colorScheme.onSurface
-            },
-            disabledContainerColor = MaterialTheme.colorScheme.onSurface.copy(0.5F),
-            disabledContentColor = MaterialTheme.colorScheme.inverseOnSurface.copy(0.5F)
+            }
         ),
         shape = MaterialTheme.shapes.large,
         modifier = Modifier.fillMaxWidth()
