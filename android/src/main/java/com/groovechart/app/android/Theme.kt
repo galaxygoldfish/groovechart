@@ -69,7 +69,7 @@ fun GroovechartTheme(
         ),
         displaySmall = TextStyle(
             fontFamily = queeringFontFamily,
-            fontSize = 26.sp
+            fontSize = 32.sp
         ),
         headlineSmall = TextStyle(
             fontFamily = interFontFamily,

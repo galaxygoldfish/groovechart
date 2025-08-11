@@ -1,11 +1,16 @@
 package com.groovechart.app.android.view
 
 import android.util.Log
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideIn
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -16,10 +21,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -31,6 +39,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -158,11 +167,83 @@ fun HomeView() {
                     }
                 },
                 bottomBar = {
-
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(MaterialTheme.colorScheme.background)
+                            .background(MaterialTheme.colorScheme.onBackground.copy(0.1F))
+                            .navigationBarsPadding(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        val navIconList = listOf(
+                            R.drawable.icon_home,
+                            R.drawable.icon_people,
+                            R.drawable.icon_music_disc
+                        )
+                        val navLabelList = stringArrayResource(id = R.array.home_nav_labels)
+                        navIconList.forEachIndexed { index, icon ->
+                            Row(
+                                modifier = Modifier
+                                    .padding(end = 15.dp, top = 15.dp, bottom = 10.dp)
+                                    .padding(start = if (index == 0) 25.dp else 0.dp)
+                                    .clip(RoundedCornerShape(5.dp))
+                                    .background(
+                                        if (viewModel.currentNavDestination == index) {
+                                            MaterialTheme.colorScheme.onBackground
+                                        } else {
+                                            Color.Transparent
+                                        }
+                                    )
+                                    .clickable {
+                                        viewModel.currentNavDestination = index
+                                    },
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    painter = painterResource(id = icon),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .padding(vertical = 7.dp, horizontal = 5.dp)
+                                        .size(30.dp),
+                                    tint = if (viewModel.currentNavDestination == index) {
+                                        MaterialTheme.colorScheme.background
+                                    } else {
+                                        MaterialTheme.colorScheme.onBackground
+                                    }
+                                )
+                                AnimatedContent(
+                                    targetState = viewModel.currentNavDestination == index,
+                                    label = "bottom-nav-label",
+                                    transitionSpec = {
+                                        if (targetState) {
+                                            ContentTransform(
+                                                targetContentEnter = slideInHorizontally { fullWidth -> fullWidth / 2 } + fadeIn(),
+                                                initialContentExit = slideOutHorizontally { fullWidth -> -fullWidth / 2 } + fadeOut()
+                                            )
+                                        } else {
+                                            ContentTransform(
+                                                targetContentEnter = slideInHorizontally { fullWidth -> -fullWidth / 2 } + fadeIn(),
+                                                initialContentExit = slideOutHorizontally { fullWidth -> fullWidth / 2 } + fadeOut()
+                                            )
+                                        }
+                                    }
+                                ) {
+                                    if (it) {
+                                        Text(
+                                            text = navLabelList[index],
+                                            style = MaterialTheme.typography.displaySmall,
+                                            modifier = Modifier.padding(end = 10.dp),
+                                            color = MaterialTheme.colorScheme.background
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
                 },
                 content = { contentPadding ->
                     Column(modifier = Modifier.padding(contentPadding)) {
-
+                        
                     }
                 }
             )

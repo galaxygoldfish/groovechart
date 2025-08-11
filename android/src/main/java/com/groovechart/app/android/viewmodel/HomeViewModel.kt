@@ -15,6 +15,7 @@ class HomeViewModel : ViewModel() {
 
     var currentUser: User? by mutableStateOf(null)
     var showAccountDialog by mutableStateOf(false)
+    var currentNavDestination by mutableStateOf(0)
 
     suspend fun fetch() {
         val mmkv = MMKV.defaultMMKV()
