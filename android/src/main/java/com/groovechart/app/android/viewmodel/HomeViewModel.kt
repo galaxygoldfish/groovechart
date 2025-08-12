@@ -19,12 +19,14 @@ import com.spotify.sdk.android.auth.AuthorizationClient
 import com.spotify.sdk.android.auth.AuthorizationRequest
 import com.spotify.sdk.android.auth.AuthorizationResponse
 import com.tencent.mmkv.MMKV
+import kotlinx.coroutines.delay
 
 class HomeViewModel : ViewModel() {
 
     var currentUser: User? by mutableStateOf(null)
+    var loadingDataComplete by mutableStateOf(false)
     var showAccountDialog by mutableStateOf(false)
-    var currentPage by mutableStateOf(PageNavigationKey.Home)
+    var currentPage by mutableIntStateOf(PageNavigationKey.Home)
     var topGenreList by mutableStateOf(listOf<String>())
 
     suspend fun fetch(activityContext: Activity) {
@@ -73,5 +75,6 @@ class HomeViewModel : ViewModel() {
                 )
             }
         )
+        loadingDataComplete = true
     }
 }

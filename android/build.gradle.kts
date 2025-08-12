@@ -50,4 +50,5 @@ dependencies {
     debugImplementation(libs.compose.ui.tooling)
     implementation(libs.spotify.auth)
     implementation(libs.coil.compose)
+    implementation(libs.shimmer.compose)
 }
