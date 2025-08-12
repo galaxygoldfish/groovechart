@@ -1,6 +1,7 @@
 package com.groovechart.app.android.view
 
 import android.util.Log
+import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ContentTransform
@@ -55,15 +56,18 @@ import com.groovechart.app.android.component.ButtonSize
 import com.groovechart.app.android.component.ButtonVariant
 import com.groovechart.app.android.component.LargeButton
 import com.groovechart.app.android.consts.PageNavigationKey
+import com.groovechart.app.android.view.page.FriendPage
 import com.groovechart.app.android.view.page.HomePage
+import com.groovechart.app.android.view.page.RecommendationPage
 import com.groovechart.app.android.viewmodel.HomeViewModel
 
 @Composable
 fun HomeView() {
     GroovechartTheme {
         val viewModel: HomeViewModel = viewModel()
+        val context = LocalActivity.current
         LaunchedEffect(true) {
-            viewModel.fetch()
+            context?.let { viewModel.fetch(it) }
         }
         if (viewModel.showAccountDialog) {
             Dialog(
@@ -220,7 +224,7 @@ fun HomeView() {
                                     contentDescription = null,
                                     modifier = Modifier
                                         .padding(vertical = 7.dp, horizontal = 5.dp)
-                                        .size(30.dp),
+                                        .size(if (viewModel.currentPage == index) 30.dp else 27.dp),
                                     tint = if (viewModel.currentPage == index) {
                                         MaterialTheme.colorScheme.background
                                     } else {
@@ -262,7 +266,9 @@ fun HomeView() {
                         // Transition where it slides left or right in future
                         when (viewModel.currentPage) {
                             PageNavigationKey.Home -> HomePage(viewModel)
-                            else -> { }
+                            PageNavigationKey.Friends -> FriendPage(viewModel)
+                            PageNavigationKey.Recommendations -> RecommendationPage(viewModel)
+                            else -> HomePage(viewModel)
                         }
                     }
                 }

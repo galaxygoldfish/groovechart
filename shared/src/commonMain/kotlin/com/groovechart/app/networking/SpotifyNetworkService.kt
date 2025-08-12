@@ -1,5 +1,8 @@
 package com.groovechart.app.networking
 
+import com.groovechart.app.model.Artist
+import com.groovechart.app.model.Genres
+import com.groovechart.app.model.TopItems
 import com.groovechart.app.model.User
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
@@ -17,16 +20,71 @@ class SpotifyNetworkService {
     suspend fun fetchUserDetails(
         authToken: String,
         onSuccess: (User) -> Unit,
-        onFailure: () -> Unit
+        onFailure: (Int) -> Unit,
+        onReauthRequired: (url: String, authToken: String) -> Unit
     ) {
         makeRequest<User>(
-            url = "https://api.spotify.com/v1/me",
+            url = SpotifyEndpoints.USER_DETAILS,
             authToken = authToken,
             onSuccess = {
                 onSuccess(it)
             },
             onFailure = { code ->
-                onFailure()
+                onFailure(code)
+            },
+            onReauthRequired = { url, authToken ->
+                onReauthRequired(url, authToken)
+            },
+            client,
+            jsonSerializer
+        )
+    }
+
+    suspend fun fetchTopArtists(
+        authToken: String,
+        onSuccess: (TopItems<Artist>) -> Unit,
+        onFailure: (Int) -> Unit,
+        onReauthRequired: (url: String, authToken: String) -> Unit
+    ) {
+        makeRequest<TopItems<Artist>>(
+            url = SpotifyEndpoints.USER_TOP_ARTISTS,
+            authToken = authToken,
+            onSuccess = {
+                onSuccess(it)
+            },
+            onFailure = { code ->
+                onFailure(code)
+            },
+            onReauthRequired = { url, authToken ->
+                onReauthRequired(url, authToken)
+            },
+            client,
+            jsonSerializer
+        )
+    }
+
+    suspend fun fetchTopGenres(
+        authToken: String,
+        onSuccess: (List<String>) -> Unit,
+        onFailure: (Int) -> Unit,
+        onReauthRequired: (url: String, authToken: String) -> Unit
+    ) {
+        makeRequest<TopItems<Artist>>(
+            url = SpotifyEndpoints.USER_TOP_ARTISTS,
+            authToken = authToken,
+            onSuccess = { response ->
+                val totalGenreList = mutableListOf<String>()
+                val topArtistList = response.items
+                topArtistList.forEach { artist ->
+                    totalGenreList.addAll(artist.genres!!)
+                }
+                onSuccess(findTopSixFrequentItems(totalGenreList))
+            },
+            onFailure = { code ->
+                onFailure(code)
+            },
+            onReauthRequired = { url, authToken ->
+                onReauthRequired(url, authToken)
             },
             client,
             jsonSerializer

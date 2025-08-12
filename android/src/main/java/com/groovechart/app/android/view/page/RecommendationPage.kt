@@ -1,10 +1,9 @@
 package com.groovechart.app.android.view.page
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.groovechart.app.android.viewmodel.HomeViewModel
 
 @Composable
-fun HomePage(viewModel: HomeViewModel) {
-    Text(text = viewModel.topGenreList.toString())
+fun RecommendationPage(viewModel: HomeViewModel) {
+
 }
