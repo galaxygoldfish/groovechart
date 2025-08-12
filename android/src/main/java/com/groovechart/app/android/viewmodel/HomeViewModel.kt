@@ -13,6 +13,7 @@ import com.groovechart.app.android.consts.Credentials
 import com.groovechart.app.android.consts.PageNavigationKey
 import com.groovechart.app.android.consts.PreferenceKey
 import com.groovechart.app.android.network.SpotifyAuthService
+import com.groovechart.app.model.Artist
 import com.groovechart.app.model.Song
 import com.groovechart.app.model.User
 import com.groovechart.app.networking.SpotifyNetworkService
@@ -30,6 +31,7 @@ class HomeViewModel : ViewModel() {
     var currentPage by mutableIntStateOf(PageNavigationKey.Home)
     var topGenreList by mutableStateOf(listOf<String>())
     var topSongList by mutableStateOf(listOf<Song>())
+    var topArtistList by mutableStateOf(listOf<Artist>())
 
     suspend fun fetch(activityContext: Activity) {
         val mmkv = MMKV.defaultMMKV()
@@ -61,10 +63,25 @@ class HomeViewModel : ViewModel() {
                 SpotifyAuthService().launchUserAuthFlow(activityContext)
             }
         )
+        // limit to top 4 items
         networkService.fetchTopTracks(
             mmkv.decodeString(PreferenceKey.AUTH_TOKEN) ?: "",
             onSuccess = {
                 topSongList = it.items
+            },
+            onFailure = {
+                Log.e("D", "failure with code $it")
+            },
+            onReauthRequired = { url, authToken ->
+                Log.e("D", "reauth required")
+                SpotifyAuthService().launchUserAuthFlow(activityContext)
+            }
+        )
+        // same limiting here
+        networkService.fetchTopArtists(
+            mmkv.decodeString(PreferenceKey.AUTH_TOKEN) ?: "",
+            onSuccess = {
+                topArtistList = it.items
             },
             onFailure = {
                 Log.e("D", "failure with code $it")

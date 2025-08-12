@@ -14,6 +14,7 @@
     <string name="cdesc_icon_people">People</string>
     <string name="cdesc_icon_home">Home</string>
     <string name="cdesc_icon_music_disc">Music</string>
+    <string name="cdesc_icon_arrow_forward">Arrow forward</string>
 
     <!-- Welcome activity -->
     <string name="welcome_subtitle">View your Spotify stats, friend activity, and expand your taste through generated playlists</string>
@@ -25,6 +26,8 @@
     <string name="home_dialog_button_app_updates">App updates</string>
     <string name="home_dialog_button_logout">Log out</string>
     <string name="home_page_genre_header">Your favorite genres</string>
+    <string name="home_page_track_header">Top tracks</string>
+    <string name="home_page_artist_header">Top artists</string>
 
     <string-array name="home_nav_labels">
         <item>Home</item>

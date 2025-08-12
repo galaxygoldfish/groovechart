@@ -34,29 +34,8 @@ fun GroovechartTheme(
         surfaceVariant = Color(0XFFF2F2F2)
     )
 
-    val queeringFontFamily = FontFamily(
-        Font(resId = R.font.queering, weight = FontWeight.Bold)
-    )
-    val interFontFamily = FontFamily(
-        Font(
-            resId = R.font.inter_variable,
-            variationSettings = FontVariation.Settings(
-                FontVariation.weight(FontWeight.Normal.weight)
-            )
-        ),
-        Font(
-            resId = R.font.inter_variable,
-            variationSettings = FontVariation.Settings(
-                FontVariation.weight(FontWeight.Medium.weight)
-            )
-        ),
-        Font(
-            resId = R.font.inter_variable,
-            variationSettings = FontVariation.Settings(
-                FontVariation.weight(FontWeight.Light.weight)
-            )
-        )
-    )
+    val queeringFontFamily = FontFamily(Font(resId = R.font.queering, weight = FontWeight.Bold))
+    val interFontFamily = FontFamily(Font(resId = R.font.inter_variable))
 
     val typography = Typography(
         displayLarge = TextStyle(
@@ -88,13 +67,13 @@ fun GroovechartTheme(
         ),
         labelLarge = TextStyle(
             fontFamily = interFontFamily,
-            fontWeight = FontWeight.SemiBold,
-            fontSize = 15.sp
+            fontWeight = FontWeight.W600,
+            fontSize = 17.sp
         ),
         labelMedium = TextStyle(
             fontFamily = interFontFamily,
-            fontWeight = FontWeight.Light,
-            fontSize = 15.sp
+            fontWeight = FontWeight.Thin,
+            fontSize = 17.sp
         )
     )
 

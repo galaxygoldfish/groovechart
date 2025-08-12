@@ -50,12 +50,22 @@ fun ActionButton(
             .clip(MaterialTheme.shapes.large)
             .background(MaterialTheme.colorScheme.onSurface)
             .clickable { onClick.invoke() }
+            .size(when(size) {
+                ButtonSize.SMALL -> 30.dp
+                ButtonSize.MEDIUM -> 40.dp
+                else -> 50.dp
+            })
     ) {
         Icon(
             painter = icon,
             contentDescription = contentDescription,
             tint = MaterialTheme.colorScheme.inverseOnSurface,
             modifier = Modifier.padding(10.dp)
+                .size(when(size) {
+                    ButtonSize.SMALL -> 20.dp
+                    ButtonSize.MEDIUM -> 25.dp
+                    else -> 30.dp
+            })
         )
     }
 }
