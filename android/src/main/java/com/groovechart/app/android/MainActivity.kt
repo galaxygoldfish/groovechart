@@ -63,7 +63,7 @@ class MainActivity : ComponentActivity() {
                 OnboardingView()
             }
             composable(NavDestinationKey.Home) {
-                HomeView()
+                HomeView(navigationController)
             }
             // TODO: Refactor to a no internet page or similar
             composable(NavDestinationKey.AuthenticationFail) {
@@ -87,7 +87,7 @@ class MainActivity : ComponentActivity() {
             }
             navigationController.navigate(NavDestinationKey.Home)
         }
-        // TODO: Error handling when the access token is not provided in response
+        // TODO: Error handling when the access token is not provided in response (auth fail view)
     }
 
 }

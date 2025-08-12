@@ -45,6 +45,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import androidx.navigation.compose.DialogHost
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -62,7 +63,7 @@ import com.groovechart.app.android.view.page.RecommendationPage
 import com.groovechart.app.android.viewmodel.HomeViewModel
 
 @Composable
-fun HomeView() {
+fun HomeView(navController: NavController) {
     GroovechartTheme {
         val viewModel: HomeViewModel = viewModel()
         val context = LocalActivity.current

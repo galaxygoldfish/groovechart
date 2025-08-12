@@ -1,4 +1,4 @@
-package com.groovechart.app.networking
+package com.groovechart.app.networking.consts
 
 object SpotifyEndpoints {
     const val BASE_URL = "https://api.spotify.com/v1"

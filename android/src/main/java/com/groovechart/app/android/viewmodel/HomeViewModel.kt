@@ -17,6 +17,7 @@ import com.groovechart.app.model.Artist
 import com.groovechart.app.model.Song
 import com.groovechart.app.model.User
 import com.groovechart.app.networking.SpotifyNetworkService
+import com.groovechart.app.networking.consts.TimeRange
 import com.tencent.mmkv.MMKV
 
 class HomeViewModel : ViewModel() {
@@ -60,7 +61,6 @@ class HomeViewModel : ViewModel() {
                 SpotifyAuthService().launchUserAuthFlow(activityContext)
             }
         )
-        // limit to top 4 items
         networkService.fetchTopTracks(
             mmkv.decodeString(PreferenceKey.AUTH_TOKEN) ?: "",
             onSuccess = {
@@ -72,9 +72,10 @@ class HomeViewModel : ViewModel() {
             onReauthRequired = { url, authToken ->
                 Log.e("D", "reauth required")
                 SpotifyAuthService().launchUserAuthFlow(activityContext)
-            }
+            },
+            limit = 4,
+            timeRange = TimeRange.SHORT_TERM
         )
-        // same limiting here
         networkService.fetchTopArtists(
             mmkv.decodeString(PreferenceKey.AUTH_TOKEN) ?: "",
             onSuccess = {
@@ -86,7 +87,9 @@ class HomeViewModel : ViewModel() {
             onReauthRequired = { url, authToken ->
                 Log.e("D", "reauth required")
                 SpotifyAuthService().launchUserAuthFlow(activityContext)
-            }
+            },
+            limit = 4,
+            timeRange = TimeRange.SHORT_TERM
         )
         loadingDataComplete = true
     }
