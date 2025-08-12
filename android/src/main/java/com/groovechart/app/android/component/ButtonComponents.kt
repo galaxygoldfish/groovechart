@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -109,5 +110,27 @@ fun LargeButton(
                 modifier = Modifier.padding(start = 10.dp)
             )
         }
+    }
+}
+
+@Composable
+fun ChipButton(
+    text: String,
+    selected: Boolean = false,
+    onClick: () -> Unit = {},
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier.border(
+            1.7.dp,
+            MaterialTheme.colorScheme.onSurface,
+            MaterialTheme.shapes.large
+        )
+    ) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.labelLarge,
+            modifier = Modifier.padding(8.dp)
+        )
     }
 }

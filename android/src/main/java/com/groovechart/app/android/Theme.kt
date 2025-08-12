@@ -88,7 +88,7 @@ fun GroovechartTheme(
         ),
         labelLarge = TextStyle(
             fontFamily = interFontFamily,
-            fontWeight = FontWeight.Medium,
+            fontWeight = FontWeight.SemiBold,
             fontSize = 15.sp
         ),
         labelMedium = TextStyle(
@@ -101,7 +101,7 @@ fun GroovechartTheme(
     val shapes = Shapes(
         small = RoundedCornerShape(5.dp),
         medium = RoundedCornerShape(4.dp),
-        large = RoundedCornerShape(7.dp)
+        large = RoundedCornerShape(5.dp)
     )
 
     MaterialTheme(

@@ -24,6 +24,7 @@
     <string name="home_dialog_button_settings">Settings</string>
     <string name="home_dialog_button_app_updates">App updates</string>
     <string name="home_dialog_button_logout">Log out</string>
+    <string name="home_page_genre_header">Your favorite genres</string>
 
     <string-array name="home_nav_labels">
         <item>Home</item>
