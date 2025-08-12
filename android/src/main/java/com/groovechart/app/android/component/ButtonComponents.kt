@@ -131,16 +131,20 @@ fun ChipButton(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.border(
+        modifier = modifier
+            .clip(MaterialTheme.shapes.large)
+            .background(if (selected) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.surface)
+            .border(
             1.7.dp,
             MaterialTheme.colorScheme.onSurface,
             MaterialTheme.shapes.large
-        )
+        ).clickable { onClick.invoke() }
     ) {
         Text(
             text = text,
             style = MaterialTheme.typography.labelLarge,
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(8.dp),
+            color = if (selected) MaterialTheme.colorScheme.inverseOnSurface else MaterialTheme.colorScheme.onSurface
         )
     }
 }

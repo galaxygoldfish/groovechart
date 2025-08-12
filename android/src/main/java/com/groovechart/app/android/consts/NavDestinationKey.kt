@@ -8,4 +8,5 @@ object NavDestinationKey {
     const val Onboarding = "onboarding"
     const val Home = "home"
     const val AuthenticationFail = "authentication-fail"
+    const val Settings = "settings"
 }

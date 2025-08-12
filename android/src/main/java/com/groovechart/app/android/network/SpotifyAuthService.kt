@@ -2,6 +2,7 @@ package com.groovechart.app.android.network
 
 import android.app.Activity
 import android.content.Intent
+import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import com.groovechart.app.android.consts.Credentials
 import com.spotify.sdk.android.auth.AuthorizationClient
@@ -22,11 +23,14 @@ class SpotifyAuthService {
     )
 
     fun launchUserAuthFlow(activityContext: Activity) {
+        Log.e("GROOVECHART", "open login activity")
         val builder = AuthorizationRequest.Builder(
             Credentials.CLIENT_ID,
             AuthorizationResponse.Type.TOKEN,
             REDIRECT_URI
-        ).setScopes(SCOPES).build()
+        ).setScopes(SCOPES)
+            .setShowDialog(true)
+            .build()
         AuthorizationClient.openLoginActivity(activityContext, REQUEST_CODE, builder)
     }
 

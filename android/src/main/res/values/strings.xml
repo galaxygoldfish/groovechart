@@ -15,6 +15,8 @@
     <string name="cdesc_icon_home">Home</string>
     <string name="cdesc_icon_music_disc">Music</string>
     <string name="cdesc_icon_arrow_forward">Arrow forward</string>
+    <string name="cdesc_icon_arrow_back">Arrow back</string>
+    <string name="cdesc_icon_view_headline">Three bars</string>
 
     <!-- Welcome activity -->
     <string name="welcome_subtitle">View your Spotify stats, friend activity, and expand your taste through generated playlists</string>
@@ -38,5 +40,12 @@
     <!-- Playlist generation flow -->
 
     <!-- Settings flow -->
+    <string name="settings_theme_header">App theme</string>
+    <string name="settings_theme_auto">AUTO</string>
+    <string name="settings_theme_light">LIGHT</string>
+    <string name="settings_theme_dark">DARK</string>
+    <string name="settings_rearrange_header">Homepage layout</string>
+    <string name="settings_rearrange_button">Customize homepage</string>
+    <string name="settings_account_header">Account</string>
 
 </resources>

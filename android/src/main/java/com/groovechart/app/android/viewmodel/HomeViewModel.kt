@@ -91,6 +91,8 @@ class HomeViewModel : ViewModel() {
             limit = 4,
             timeRange = TimeRange.SHORT_TERM
         )
+        Log.e("DD", topArtistList.toString())
+        Log.e("DD", topSongList.toString())
         loadingDataComplete = true
     }
 }

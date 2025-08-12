@@ -7,4 +7,6 @@ package com.groovechart.app.android.consts
 object PreferenceKey {
     const val ONBOARDING_COMPLETE = "onboarding-complete"
     const val AUTH_TOKEN = "auth-token"
+    const val AUTH_EXPIRY_UNIX = "auth-expiry-unix"
+    const val APP_THEME = "app-theme"
 }

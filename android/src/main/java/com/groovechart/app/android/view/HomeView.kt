@@ -56,6 +56,7 @@ import com.groovechart.app.android.component.ActionButton
 import com.groovechart.app.android.component.ButtonSize
 import com.groovechart.app.android.component.ButtonVariant
 import com.groovechart.app.android.component.LargeButton
+import com.groovechart.app.android.consts.NavDestinationKey
 import com.groovechart.app.android.consts.PageNavigationKey
 import com.groovechart.app.android.view.page.FriendPage
 import com.groovechart.app.android.view.page.HomePage
@@ -132,7 +133,10 @@ fun HomeView(navController: NavController) {
                             icon = painterResource(R.drawable.icon_settings),
                             contentDescription = stringResource(R.string.cdesc_icon_settings),
                             variant = ButtonVariant.OUTLINED,
-                            onClick = { /*TODO*/ }
+                            onClick = {
+                                viewModel.showAccountDialog = false
+                                navController.navigate(NavDestinationKey.Settings)
+                            }
                         )
                         LargeButton(
                             text = stringResource(R.string.home_dialog_button_app_updates),

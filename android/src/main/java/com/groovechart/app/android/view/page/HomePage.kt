@@ -26,6 +26,7 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -109,7 +110,10 @@ fun HomePage(viewModel: HomeViewModel) {
         }
         // Actual content
         AnimatedVisibility(
-            visible = viewModel.loadingDataComplete,
+            visible = viewModel.loadingDataComplete
+                    && viewModel.topGenreList.isNotEmpty()
+                    && viewModel.topSongList.isNotEmpty()
+                    && viewModel.topArtistList.isNotEmpty(),
             enter = fadeIn(),
             exit = fadeOut()
         ) {

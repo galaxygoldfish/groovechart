@@ -13,24 +13,7 @@ import com.spotify.sdk.android.auth.AuthorizationResponse
 class OnboardingViewModel : ViewModel() {
 
     fun launchUserAuthFlow(activityContext: Activity) {
-        AuthorizationClient.openLoginActivity(
-            activityContext,
-            10101011,
-            AuthorizationRequest.Builder(
-                Credentials.CLIENT_ID,
-                AuthorizationResponse.Type.TOKEN,
-                "groovechart://login"
-            ).setScopes(
-                arrayOf(
-                    "user-follow-read",
-                    "user-top-read",
-                    "user-read-private",
-                    "user-read-email",
-                    "playlist-modify-public",
-                    "playlist-modify-private"
-                )
-            ).build()
-        )
+        SpotifyAuthService().launchUserAuthFlow(activityContext)
     }
 
 }

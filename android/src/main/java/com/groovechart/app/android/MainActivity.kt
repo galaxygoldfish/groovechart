@@ -22,9 +22,11 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navDeepLink
 import com.groovechart.app.android.consts.NavDestinationKey
 import com.groovechart.app.android.consts.PreferenceKey
+import com.groovechart.app.android.network.SpotifyAuthService
 import com.groovechart.app.android.view.AuthenticationFailView
 import com.groovechart.app.android.view.HomeView
 import com.groovechart.app.android.view.OnboardingView
+import com.groovechart.app.android.view.SettingsView
 import com.spotify.sdk.android.auth.AuthorizationClient
 import com.spotify.sdk.android.auth.AuthorizationResponse
 import com.tencent.mmkv.MMKV
@@ -44,6 +46,10 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             NavigationHost(mmkv)
+        }
+
+        if (mmkv.decodeLong(PreferenceKey.AUTH_EXPIRY_UNIX) <= System.currentTimeMillis()) {
+            SpotifyAuthService().launchUserAuthFlow(this)
         }
     }
 
@@ -69,6 +75,9 @@ class MainActivity : ComponentActivity() {
             composable(NavDestinationKey.AuthenticationFail) {
                 AuthenticationFailView()
             }
+            composable(NavDestinationKey.Settings) {
+                SettingsView(navigationController)
+            }
         }
     }
 
@@ -84,10 +93,10 @@ class MainActivity : ComponentActivity() {
             MMKV.defaultMMKV().apply {
                 encode(PreferenceKey.AUTH_TOKEN, token)
                 encode(PreferenceKey.ONBOARDING_COMPLETE, true)
+                encode(PreferenceKey.AUTH_EXPIRY_UNIX, System.currentTimeMillis() + 3600000)
             }
             navigationController.navigate(NavDestinationKey.Home)
         }
-        // TODO: Error handling when the access token is not provided in response (auth fail view)
     }
 
 }
