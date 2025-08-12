@@ -79,6 +79,13 @@ fun HomePage(viewModel: HomeViewModel) {
                         )
                     }
                 }
+                viewModel.topSongList.forEach {
+                    Text(
+                        text = it.name,
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.padding(top = 20.dp)
+                    )
+                }
             }
         }
     }

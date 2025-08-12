@@ -13,6 +13,7 @@ import com.groovechart.app.android.consts.Credentials
 import com.groovechart.app.android.consts.PageNavigationKey
 import com.groovechart.app.android.consts.PreferenceKey
 import com.groovechart.app.android.network.SpotifyAuthService
+import com.groovechart.app.model.Song
 import com.groovechart.app.model.User
 import com.groovechart.app.networking.SpotifyNetworkService
 import com.spotify.sdk.android.auth.AuthorizationClient
@@ -28,10 +29,12 @@ class HomeViewModel : ViewModel() {
     var showAccountDialog by mutableStateOf(false)
     var currentPage by mutableIntStateOf(PageNavigationKey.Home)
     var topGenreList by mutableStateOf(listOf<String>())
+    var topSongList by mutableStateOf(listOf<Song>())
 
     suspend fun fetch(activityContext: Activity) {
         val mmkv = MMKV.defaultMMKV()
-        SpotifyNetworkService().fetchUserDetails(
+        val networkService = SpotifyNetworkService()
+        networkService.fetchUserDetails(
             mmkv.decodeString(PreferenceKey.AUTH_TOKEN) ?: "",
             onSuccess = {
                 Log.e("s", "success, ${it.display_name}")
@@ -42,11 +45,10 @@ class HomeViewModel : ViewModel() {
             },
             onReauthRequired = { url, authToken ->
                 Log.e("D", "reauth required")
-                val spotifyAuthService = SpotifyAuthService()
-                spotifyAuthService.launchUserAuthFlow(activityContext)
+                SpotifyAuthService().launchUserAuthFlow(activityContext)
             }
         )
-        SpotifyNetworkService().fetchTopGenres(
+        networkService.fetchTopGenres(
             mmkv.decodeString(PreferenceKey.AUTH_TOKEN) ?: "",
             onSuccess = {
                 topGenreList = it
@@ -55,24 +57,21 @@ class HomeViewModel : ViewModel() {
                 Log.e("D", "failure with code $it")
             },
             onReauthRequired = { url, authToken ->
-                AuthorizationClient.openLoginActivity(
-                    activityContext,
-                    10101011,
-                    AuthorizationRequest.Builder(
-                        Credentials.CLIENT_ID,
-                        AuthorizationResponse.Type.TOKEN,
-                        "groovechart://login"
-                    ).setScopes(
-                        arrayOf(
-                            "user-follow-read",
-                            "user-top-read",
-                            "user-read-private",
-                            "user-read-email",
-                            "playlist-modify-public",
-                            "playlist-modify-private"
-                        )
-                    ).build()
-                )
+                Log.e("D", "reauth required")
+                SpotifyAuthService().launchUserAuthFlow(activityContext)
+            }
+        )
+        networkService.fetchTopTracks(
+            mmkv.decodeString(PreferenceKey.AUTH_TOKEN) ?: "",
+            onSuccess = {
+                topSongList = it.items
+            },
+            onFailure = {
+                Log.e("D", "failure with code $it")
+            },
+            onReauthRequired = { url, authToken ->
+                Log.e("D", "reauth required")
+                SpotifyAuthService().launchUserAuthFlow(activityContext)
             }
         )
         loadingDataComplete = true

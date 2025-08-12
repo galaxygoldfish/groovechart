@@ -2,6 +2,7 @@ package com.groovechart.app.networking
 
 import com.groovechart.app.model.Artist
 import com.groovechart.app.model.Genres
+import com.groovechart.app.model.Song
 import com.groovechart.app.model.TopItems
 import com.groovechart.app.model.User
 import io.ktor.client.HttpClient
@@ -48,6 +49,29 @@ class SpotifyNetworkService {
     ) {
         makeRequest<TopItems<Artist>>(
             url = SpotifyEndpoints.USER_TOP_ARTISTS,
+            authToken = authToken,
+            onSuccess = {
+                onSuccess(it)
+            },
+            onFailure = { code ->
+                onFailure(code)
+            },
+            onReauthRequired = { url, authToken ->
+                onReauthRequired(url, authToken)
+            },
+            client,
+            jsonSerializer
+        )
+    }
+
+    suspend fun fetchTopTracks(
+        authToken: String,
+        onSuccess: (TopItems<Song>) -> Unit,
+        onFailure: (Int) -> Unit,
+        onReauthRequired: (url: String, authToken: String) -> Unit
+    ) {
+        makeRequest<TopItems<Song>>(
+            url = SpotifyEndpoints.USER_TOP_SONGS,
             authToken = authToken,
             onSuccess = {
                 onSuccess(it)

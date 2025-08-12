@@ -8,6 +8,8 @@ import io.ktor.util.logging.KtorSimpleLogger
 import io.ktor.util.logging.Logger
 import kotlinx.serialization.json.Json
 
+expect fun log(message: String)
+
 suspend inline fun <reified T> makeRequest(
     url: String,
     authToken: String,
@@ -22,9 +24,11 @@ suspend inline fun <reified T> makeRequest(
     }
     when (response.status.value) {
         200 -> {
+            log(response.bodyAsText())
             try {
                 onSuccess(jsonSerializer.decodeFromString<T>(response.bodyAsText()))
-            } catch (_: Exception) {
+            } catch (e: Exception) {
+                log(e.message.toString())
                 onFailure(987) // 987 == serialization error
             }
         }
