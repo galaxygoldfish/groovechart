@@ -17,11 +17,7 @@ import com.groovechart.app.model.Artist
 import com.groovechart.app.model.Song
 import com.groovechart.app.model.User
 import com.groovechart.app.networking.SpotifyNetworkService
-import com.spotify.sdk.android.auth.AuthorizationClient
-import com.spotify.sdk.android.auth.AuthorizationRequest
-import com.spotify.sdk.android.auth.AuthorizationResponse
 import com.tencent.mmkv.MMKV
-import kotlinx.coroutines.delay
 
 class HomeViewModel : ViewModel() {
 
@@ -34,6 +30,7 @@ class HomeViewModel : ViewModel() {
     var topArtistList by mutableStateOf(listOf<Artist>())
 
     suspend fun fetch(activityContext: Activity) {
+        loadingDataComplete = false
         val mmkv = MMKV.defaultMMKV()
         val networkService = SpotifyNetworkService()
         networkService.fetchUserDetails(

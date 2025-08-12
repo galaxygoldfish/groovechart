@@ -76,7 +76,7 @@ fun HomeView() {
 
                 Column(
                     modifier = Modifier.fillMaxWidth()
-                        .clip(MaterialTheme.shapes.large)
+                        .clip(RoundedCornerShape(10.dp))
                         .background(MaterialTheme.colorScheme.background)
                 ) {
                     Row(

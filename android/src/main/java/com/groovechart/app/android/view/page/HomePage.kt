@@ -1,5 +1,6 @@
 package com.groovechart.app.android.view.page
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -18,9 +19,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
@@ -33,11 +40,33 @@ import com.groovechart.app.android.component.ContentListItemSkeleton
 import com.groovechart.app.android.component.DashedLabelHeader
 import com.groovechart.app.android.viewmodel.HomeViewModel
 import com.valentinilk.shimmer.shimmer
+import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun HomePage(viewModel: HomeViewModel) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    val coroutineScope = rememberCoroutineScope()
+    val activityContext = LocalActivity.current
+    val pullToRefreshState = rememberPullToRefreshState()
+    PullToRefreshBox(
+        isRefreshing = !viewModel.loadingDataComplete,
+        state = pullToRefreshState,
+        onRefresh = {
+            coroutineScope.launch {
+                activityContext?.let { viewModel.fetch(it) }
+            }
+        },
+        modifier = Modifier.fillMaxSize(),
+        indicator = {
+            Indicator(
+                modifier = Modifier. align(Alignment.TopCenter),
+                isRefreshing = !viewModel.loadingDataComplete,
+                state = pullToRefreshState ,
+                color = MaterialTheme.colorScheme.background,
+                containerColor = MaterialTheme.colorScheme.onBackground
+            )
+        }
+    ) {
         // Loading skeleton
         AnimatedVisibility(
             visible = !viewModel.loadingDataComplete,
