@@ -106,7 +106,8 @@ fun HomeView(navController: NavController) {
                             Column(modifier = Modifier.padding(start = 20.dp, top = 20.dp)) {
                                 Text(
                                     text = viewModel.currentUser!!.display_name,
-                                    style = MaterialTheme.typography.bodyMedium
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurface
                                 )
                                 Text(
                                     text = "${viewModel.currentUser!!.followers.total} ${
@@ -115,7 +116,7 @@ fun HomeView(navController: NavController) {
                                         )
                                     }",
                                     style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onBackground.copy(0.7F)
+                                    color = MaterialTheme.colorScheme.onSurface.copy(0.7F)
                                 )
                             }
                         }

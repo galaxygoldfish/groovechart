@@ -1,5 +1,6 @@
 package com.groovechart.app.android.view
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -27,11 +28,21 @@ import com.groovechart.app.android.consts.PreferenceKey
 import com.spotify.sdk.android.auth.AuthorizationClient
 import com.spotify.sdk.android.auth.app.SpotifyAuthHandler
 import com.tencent.mmkv.MMKV
+import okhttp3.internal.isSensitiveHeader
 
 @Composable
 fun SettingsView(navController: NavController) {
     val mmkv = MMKV.defaultMMKV()
-    GroovechartTheme {
+    var themeType by remember {
+        mutableStateOf(mmkv.decodeString(PreferenceKey.APP_THEME, "auto"))
+    }
+    GroovechartTheme(
+        darkTheme = when (themeType) {
+            "dark" -> true
+            "light" -> false
+            else -> isSystemInDarkTheme()
+        }
+    ) {
         Surface {
             Column(Modifier.statusBarsPadding()) {
                 LargeHeader(
@@ -41,9 +52,6 @@ fun SettingsView(navController: NavController) {
                     }
                 )
                 Column(Modifier.padding(horizontal = 20.dp)) {
-                    var themeType by remember {
-                        mutableStateOf(mmkv.decodeString(PreferenceKey.APP_THEME, "auto"))
-                    }
                     Text(
                         text = stringResource(R.string.settings_theme_header),
                         style = MaterialTheme.typography.labelMedium,

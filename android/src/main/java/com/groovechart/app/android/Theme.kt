@@ -18,6 +18,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
+import com.groovechart.app.android.consts.PreferenceKey
+import com.tencent.mmkv.MMKV
 
 @OptIn(ExperimentalTextApi::class)
 @Composable
@@ -25,14 +27,31 @@ fun GroovechartTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
+    var isDarkTheme = darkTheme
+    val mmkv = MMKV.defaultMMKV()
+    isDarkTheme = when (mmkv.decodeString(PreferenceKey.APP_THEME)) {
+        "light" -> false
+        "dark" -> true
+        else -> isSystemInDarkTheme()
+    }
     // add if (darkTheme) later
-    val colors = lightColorScheme(
-        surface = Color.White,
-        background = Color.White,
-        inverseOnSurface = Color.White,
-        onSurface = Color.Black,
-        surfaceVariant = Color(0XFFF2F2F2)
-    )
+    val colors = if (isDarkTheme) {
+        darkColorScheme(
+            surface = Color.Black,
+            background = Color.Black,
+            inverseOnSurface = Color.Black,
+            onSurface = Color.White,
+            surfaceVariant = Color(0XFFF2F2F2) // update this
+        )
+    } else {
+        lightColorScheme(
+            surface = Color.White,
+            background = Color.White,
+            inverseOnSurface = Color.White,
+            onSurface = Color.Black,
+            surfaceVariant = Color(0XFFF2F2F2)
+        )
+    }
 
     val queeringFontFamily = FontFamily(Font(resId = R.font.queering, weight = FontWeight.Bold))
     val interFontFamily = FontFamily(Font(resId = R.font.inter_variable))
