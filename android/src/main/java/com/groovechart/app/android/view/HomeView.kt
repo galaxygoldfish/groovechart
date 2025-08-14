@@ -75,7 +75,6 @@ fun HomeView(navController: NavController) {
             Dialog(
                 onDismissRequest = { viewModel.showAccountDialog = false }
             ) {
-
                 Column(
                     modifier = Modifier.fillMaxWidth()
                         .clip(RoundedCornerShape(10.dp))

@@ -24,17 +24,15 @@ import com.groovechart.app.android.component.ButtonVariant
 import com.groovechart.app.android.component.ChipButton
 import com.groovechart.app.android.component.LargeButton
 import com.groovechart.app.android.component.LargeHeader
+import com.groovechart.app.android.consts.NavDestinationKey
 import com.groovechart.app.android.consts.PreferenceKey
-import com.spotify.sdk.android.auth.AuthorizationClient
-import com.spotify.sdk.android.auth.app.SpotifyAuthHandler
 import com.tencent.mmkv.MMKV
-import okhttp3.internal.isSensitiveHeader
 
 @Composable
 fun SettingsView(navController: NavController) {
     val mmkv = MMKV.defaultMMKV()
     var themeType by remember {
-        mutableStateOf(mmkv.decodeString(PreferenceKey.APP_THEME, "auto"))
+        mutableStateOf(mmkv.decodeString(PreferenceKey.PREFERENCE_APP_THEME, "auto"))
     }
     GroovechartTheme(
         darkTheme = when (themeType) {
@@ -46,9 +44,9 @@ fun SettingsView(navController: NavController) {
         Surface {
             Column(Modifier.statusBarsPadding()) {
                 LargeHeader(
-                    text = "Settings",
+                    text = stringResource(R.string.settings_header),
                     onBackClick = {
-                        navController.popBackStack()
+                        navController.navigate(NavDestinationKey.Home)
                     }
                 )
                 Column(Modifier.padding(horizontal = 20.dp)) {
@@ -63,7 +61,7 @@ fun SettingsView(navController: NavController) {
                             selected = themeType == "auto",
                             onClick = {
                                 themeType = "auto"
-                                mmkv.encode(PreferenceKey.APP_THEME, "auto")
+                                mmkv.encode(PreferenceKey.PREFERENCE_APP_THEME, "auto")
                             }
                         )
                         ChipButton(
@@ -72,7 +70,7 @@ fun SettingsView(navController: NavController) {
                             selected = themeType == "light",
                             onClick = {
                                 themeType = "light"
-                                mmkv.encode(PreferenceKey.APP_THEME, "light")
+                                mmkv.encode(PreferenceKey.PREFERENCE_APP_THEME, "light")
                             }
                         )
                         ChipButton(
@@ -81,7 +79,7 @@ fun SettingsView(navController: NavController) {
                             selected = themeType == "dark",
                             onClick = {
                                 themeType = "dark"
-                                mmkv.encode(PreferenceKey.APP_THEME, "dark")
+                                mmkv.encode(PreferenceKey.PREFERENCE_APP_THEME, "dark")
                             }
                         )
                     }
@@ -95,7 +93,7 @@ fun SettingsView(navController: NavController) {
                         icon = painterResource(R.drawable.icon_view_headline),
                         contentDescription = stringResource(R.string.cdesc_icon_view_headline),
                         variant = ButtonVariant.OUTLINED,
-                        onClick = { /** NAVIGATE */ },
+                        onClick = { navController.navigate(NavDestinationKey.HomepageRearrange) },
                         modifier = Modifier.padding(top = 20.dp)
                     )
                     Text(

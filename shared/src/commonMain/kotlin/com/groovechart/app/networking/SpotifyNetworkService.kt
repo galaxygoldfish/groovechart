@@ -15,6 +15,7 @@ import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import kotlin.math.min
 
 class SpotifyNetworkService {
 
@@ -106,7 +107,9 @@ class SpotifyNetworkService {
         authToken: String,
         onSuccess: (List<String>) -> Unit,
         onFailure: (Int) -> Unit,
-        onReauthRequired: (url: String, authToken: String) -> Unit
+        onReauthRequired: (url: String, authToken: String) -> Unit,
+        numGenres: Int,
+        timeRange: String
     ) {
         makeRequest<TopItems<Artist>>(
             url = SpotifyEndpoints.USER_TOP_ARTISTS,
@@ -117,7 +120,7 @@ class SpotifyNetworkService {
                 topArtistList.forEach { artist ->
                     totalGenreList.addAll(artist.genres)
                 }
-                onSuccess(findTopSixFrequentItems(totalGenreList))
+                onSuccess(findTopFrequentItems(totalGenreList, numGenres))
             },
             onFailure = { code ->
                 onFailure(code)
@@ -125,8 +128,12 @@ class SpotifyNetworkService {
             onReauthRequired = { url, authToken ->
                 onReauthRequired(url, authToken)
             },
-            client,
-            jsonSerializer
+            client = client,
+            jsonSerializer = jsonSerializer,
+            queryBuilder = {
+                parameter("limit", min(numGenres * 3, 50))
+                parameter("time_range", timeRange)
+            }
         )
     }
 

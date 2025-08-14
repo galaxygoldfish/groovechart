@@ -1,5 +1,6 @@
 package com.groovechart.app.android.view.page
 
+import android.util.Log
 import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -68,7 +69,7 @@ fun HomePage(viewModel: HomeViewModel) {
             )
         }
     ) {
-        // Loading skeleton
+        // Loading skeleton - update to match rearragement
         AnimatedVisibility(
             visible = !viewModel.loadingDataComplete,
             modifier = Modifier.shimmer(),
@@ -124,55 +125,63 @@ fun HomePage(viewModel: HomeViewModel) {
                     modifier = Modifier.padding(horizontal = 20.dp)
                         .verticalScroll(rememberScrollState())
                 ) {
-                    Text(
-                        text = stringResource(R.string.home_page_genre_header),
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.padding(top = 20.dp)
-                    )
-                    FlowRow(modifier = Modifier.padding(top = 15.dp)) {
-                        viewModel.topGenreList.forEach { genre ->
-                            ChipButton(
-                                text = genre.uppercase(),
-                                modifier = Modifier.padding(end = 7.dp, bottom = 7.dp)
-                            )
+                    viewModel.arrangementOrder.forEach { currentItem ->
+                        when (currentItem.trim()) {
+                            stringResource(R.string.settings_homepage_rearrange_artists) -> {
+                                DashedLabelHeader(
+                                    label = stringResource(R.string.home_page_artist_header),
+                                    secondaryLabel = "(past month)",
+                                    onButtonClick = { /* Handle edit click */ },
+                                    icon = painterResource(R.drawable.icon_arrow_forward),
+                                    contentDescription = stringResource(R.string.cdesc_icon_arrow_forward),
+                                    modifier = Modifier.padding(top = 20.dp)
+                                )
+                                viewModel.topArtistList.forEach { artist ->
+                                    ContentListItem(
+                                        title = artist.name,
+                                        subtitle = viewModel.formatNumberShort(artist.followers!!.total.toLong()) + " followers",
+                                        iconUrl = artist.images!![0].url,
+                                        modifier = Modifier.padding(top = 10.dp),
+                                        iconCircular = true,
+                                        onClick = { }
+                                    )
+                                }
+                            }
+                            stringResource(R.string.settings_homepage_rearrange_tracks) -> {
+                                DashedLabelHeader(
+                                    label = stringResource(R.string.home_page_track_header),
+                                    secondaryLabel = "(past month)",
+                                    onButtonClick = { /* Handle edit click */ },
+                                    icon = painterResource(R.drawable.icon_arrow_forward),
+                                    contentDescription = stringResource(R.string.cdesc_icon_arrow_forward),
+                                    modifier = Modifier.padding(top = 20.dp)
+                                )
+                                viewModel.topSongList.forEach { song ->
+                                    ContentListItem(
+                                        title = song.name,
+                                        subtitle = song.album.artists[0].name,
+                                        iconUrl = song.album.images[0].url,
+                                        modifier = Modifier.padding(top = 10.dp),
+                                        onClick = { }
+                                    )
+                                }
+                            }
+                            else -> {
+                                Text(
+                                    text = stringResource(R.string.home_page_genre_header),
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    modifier = Modifier.padding(top = 25.dp)
+                                )
+                                FlowRow(modifier = Modifier.padding(top = 15.dp)) {
+                                    viewModel.topGenreList.forEach { genre ->
+                                        ChipButton(
+                                            text = genre.uppercase(),
+                                            modifier = Modifier.padding(end = 7.dp, bottom = 7.dp)
+                                        )
+                                    }
+                                }
+                            }
                         }
-                    }
-                    DashedLabelHeader(
-                        label = stringResource(R.string.home_page_track_header),
-                        secondaryLabel = "(past month)",
-                        onButtonClick = { /* Handle edit click */ },
-                        icon = painterResource(R.drawable.icon_arrow_forward),
-                        contentDescription = stringResource(R.string.cdesc_icon_arrow_forward),
-                        modifier = Modifier.padding(top = 20.dp)
-                    )
-                    repeat(times = 4) { index ->
-                        val it = viewModel.topSongList[index]
-                        ContentListItem(
-                            title = it.name,
-                            subtitle = it.album.artists[0].name,
-                            iconUrl = it.album.images[0].url,
-                            modifier = Modifier.padding(top = 10.dp),
-                            onClick = { }
-                        )
-                    }
-                    DashedLabelHeader(
-                        label = stringResource(R.string.home_page_artist_header),
-                        secondaryLabel = "(past month)",
-                        onButtonClick = { /* Handle edit click */ },
-                        icon = painterResource(R.drawable.icon_arrow_forward),
-                        contentDescription = stringResource(R.string.cdesc_icon_arrow_forward),
-                        modifier = Modifier.padding(top = 20.dp)
-                    )
-                    repeat(times = 4) { index ->
-                        val it = viewModel.topArtistList[index]
-                        ContentListItem(
-                            title = it.name,
-                            subtitle = it.followers!!.total.toString() + " followers",
-                            iconUrl = it.images!![0].url,
-                            modifier = Modifier.padding(top = 10.dp),
-                            iconCircular = true,
-                            onClick = { }
-                        )
                     }
                     Spacer(Modifier.height(40.dp))
                 }

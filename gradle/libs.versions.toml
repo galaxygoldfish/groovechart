@@ -15,6 +15,7 @@ ktor = "3.1.3"
 serialization = "1.8.1"
 coil = "2.5.0"
 shimmer = "1.3.3"
+reorderable = "3.0.0"
 
 [libraries]
 auth-v125 = { module = "com.spotify.android:auth", version.ref = "authVersion" }
@@ -38,6 +39,7 @@ ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "kto
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 shimmer-compose = { module = "com.valentinilk.shimmer:compose-shimmer", version.ref = "shimmer" }
+reorderable-compose = { module = "sh.calvin.reorderable:reorderable", version = "2.5.1" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

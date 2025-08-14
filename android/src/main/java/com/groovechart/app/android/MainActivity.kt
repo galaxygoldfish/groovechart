@@ -25,6 +25,7 @@ import com.groovechart.app.android.consts.PreferenceKey
 import com.groovechart.app.android.network.SpotifyAuthService
 import com.groovechart.app.android.view.AuthenticationFailView
 import com.groovechart.app.android.view.HomeView
+import com.groovechart.app.android.view.HomepageRearrangeView
 import com.groovechart.app.android.view.OnboardingView
 import com.groovechart.app.android.view.SettingsView
 import com.spotify.sdk.android.auth.AuthorizationClient
@@ -48,7 +49,8 @@ class MainActivity : ComponentActivity() {
             NavigationHost(mmkv)
         }
 
-        if (mmkv.decodeLong(PreferenceKey.AUTH_EXPIRY_UNIX) <= System.currentTimeMillis()) {
+        if (mmkv.decodeLong(PreferenceKey.AUTH_EXPIRY_UNIX) <= System.currentTimeMillis()
+            && mmkv.decodeBool(PreferenceKey.ONBOARDING_COMPLETE)) {
             SpotifyAuthService().launchUserAuthFlow(this)
         }
     }
@@ -77,6 +79,9 @@ class MainActivity : ComponentActivity() {
             }
             composable(NavDestinationKey.Settings) {
                 SettingsView(navigationController)
+            }
+            composable(NavDestinationKey.HomepageRearrange) {
+                HomepageRearrangeView(navigationController)
             }
         }
     }

@@ -51,4 +51,5 @@ dependencies {
     implementation(libs.spotify.auth)
     implementation(libs.coil.compose)
     implementation(libs.shimmer.compose)
+    implementation(libs.reorderable.compose)
 }

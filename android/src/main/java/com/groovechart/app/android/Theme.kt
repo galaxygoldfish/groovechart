@@ -13,11 +13,9 @@ import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.view.WindowCompat
 import com.groovechart.app.android.consts.PreferenceKey
 import com.tencent.mmkv.MMKV
 
@@ -29,7 +27,7 @@ fun GroovechartTheme(
 ) {
     var isDarkTheme = darkTheme
     val mmkv = MMKV.defaultMMKV()
-    isDarkTheme = when (mmkv.decodeString(PreferenceKey.APP_THEME)) {
+    isDarkTheme = when (mmkv.decodeString(PreferenceKey.PREFERENCE_APP_THEME)) {
         "light" -> false
         "dark" -> true
         else -> isSystemInDarkTheme()

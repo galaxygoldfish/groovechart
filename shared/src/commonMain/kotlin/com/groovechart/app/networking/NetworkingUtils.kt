@@ -46,11 +46,11 @@ suspend inline fun <reified T> makeRequest(
     }
 }
 
-fun findTopSixFrequentItems(list: List<String>): List<String> {
+fun findTopFrequentItems(list: List<String>, numItems: Int): List<String> {
     return list.groupingBy { it }
         .eachCount()
         .toList()
         .sortedByDescending { (_, frequency) -> frequency }
-        .take(6)
+        .take(numItems)
         .map { it.first }
 }

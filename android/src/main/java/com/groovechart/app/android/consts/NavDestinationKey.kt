@@ -9,4 +9,5 @@ object NavDestinationKey {
     const val Home = "home"
     const val AuthenticationFail = "authentication-fail"
     const val Settings = "settings"
+    const val HomepageRearrange = "homepage-rearrange"
 }
