@@ -14,7 +14,7 @@ expect fun log(message: String)
 
 suspend inline fun <reified T> makeRequest(
     url: String,
-    authToken: String,
+    authToken: String? = null,
     onSuccess: (response: T) -> Unit,
     onFailure: (errorCode: Int) -> Unit,
     onReauthRequired: (url: String, authToken: String) -> Unit,
@@ -25,7 +25,9 @@ suspend inline fun <reified T> makeRequest(
     val response = client.get(
         urlString = url,
         block = {
-            header("Authorization", "Bearer $authToken")
+            if (authToken !== null) {
+                header("Authorization", "Bearer $authToken")
+            }
             queryBuilder()
         }
     )
@@ -40,7 +42,7 @@ suspend inline fun <reified T> makeRequest(
             }
         }
         401 -> {
-            onReauthRequired(url, authToken)
+            authToken?.apply { onReauthRequired(url, this) }
         }
         else -> onFailure(response.status.value)
     }

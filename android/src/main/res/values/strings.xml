@@ -32,6 +32,7 @@
     <string name="home_page_genre_header">Your favorite genres</string>
     <string name="home_page_track_header">Top tracks</string>
     <string name="home_page_artist_header">Top artists</string>
+    <string name="home_page_past_template">(past %1$s)</string>
 
     <string-array name="home_nav_labels">
         <item>Home</item>

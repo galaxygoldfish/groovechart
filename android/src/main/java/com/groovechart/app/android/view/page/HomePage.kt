@@ -40,7 +40,9 @@ import com.groovechart.app.android.component.ChipButton
 import com.groovechart.app.android.component.ContentListItem
 import com.groovechart.app.android.component.ContentListItemSkeleton
 import com.groovechart.app.android.component.DashedLabelHeader
+import com.groovechart.app.android.consts.PreferenceKey
 import com.groovechart.app.android.viewmodel.HomeViewModel
+import com.groovechart.app.networking.consts.TimeRange
 import com.valentinilk.shimmer.shimmer
 import kotlinx.coroutines.launch
 
@@ -130,7 +132,13 @@ fun HomePage(viewModel: HomeViewModel) {
                             stringResource(R.string.settings_homepage_rearrange_artists) -> {
                                 DashedLabelHeader(
                                     label = stringResource(R.string.home_page_artist_header),
-                                    secondaryLabel = "(past month)",
+                                    secondaryLabel = stringResource(
+                                        R.string.home_page_past_template,
+                                        viewModel.mmkv.decodeString(
+                                            PreferenceKey.PREFERENCE_ARTIST_TIME,
+                                            "month"
+                                        )!!.lowercase()
+                                    ),
                                     onButtonClick = { /* Handle edit click */ },
                                     icon = painterResource(R.drawable.icon_arrow_forward),
                                     contentDescription = stringResource(R.string.cdesc_icon_arrow_forward),
@@ -150,7 +158,13 @@ fun HomePage(viewModel: HomeViewModel) {
                             stringResource(R.string.settings_homepage_rearrange_tracks) -> {
                                 DashedLabelHeader(
                                     label = stringResource(R.string.home_page_track_header),
-                                    secondaryLabel = "(past month)",
+                                    secondaryLabel = stringResource(
+                                        R.string.home_page_past_template,
+                                        viewModel.mmkv.decodeString(
+                                            PreferenceKey.PREFERENCE_TRACK_TIME,
+                                            "month"
+                                        )!!.lowercase()
+                                    ),
                                     onButtonClick = { /* Handle edit click */ },
                                     icon = painterResource(R.drawable.icon_arrow_forward),
                                     contentDescription = stringResource(R.string.cdesc_icon_arrow_forward),
