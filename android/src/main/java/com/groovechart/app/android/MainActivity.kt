@@ -2,15 +2,9 @@ package com.groovechart.app.android
 
 import android.app.ComponentCaller
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultCallback
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -19,17 +13,15 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navDeepLink
 import com.groovechart.app.android.consts.NavDestinationKey
 import com.groovechart.app.android.consts.PreferenceKey
 import com.groovechart.app.android.network.SpotifyAuthService
 import com.groovechart.app.android.view.AuthenticationFailView
-import com.groovechart.app.android.view.HomeView
-import com.groovechart.app.android.view.HomepageRearrangeView
+import com.groovechart.app.android.view.home.HomeView
+import com.groovechart.app.android.view.settings.HomepageRearrangeView
 import com.groovechart.app.android.view.OnboardingView
-import com.groovechart.app.android.view.SettingsView
+import com.groovechart.app.android.view.settings.SettingsView
 import com.spotify.sdk.android.auth.AuthorizationClient
-import com.spotify.sdk.android.auth.AuthorizationResponse
 import com.tencent.mmkv.MMKV
 
 class MainActivity : ComponentActivity() {
@@ -38,17 +30,14 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         MMKV.initialize(this@MainActivity)
         val mmkv = MMKV.defaultMMKV()
-
         WindowCompat.getInsetsController(window, window.decorView)
             .isAppearanceLightStatusBars = true
-
         setContent {
             NavigationHost(mmkv)
         }
-
+        // If the authentication token is expired or missing, launch the auth activity
         if (mmkv.decodeLong(PreferenceKey.AUTH_EXPIRY_UNIX) <= System.currentTimeMillis()
             && mmkv.decodeBool(PreferenceKey.ONBOARDING_COMPLETE)) {
             SpotifyAuthService().launchUserAuthFlow(this)
@@ -86,6 +75,9 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    /**
+     * This currently handles receiving the authentication token from the Spotify SDK
+     */
     override fun onActivityResult(
         requestCode: Int,
         resultCode: Int,
@@ -94,6 +86,7 @@ class MainActivity : ComponentActivity() {
     ) {
         super.onActivityResult(requestCode, resultCode, data, caller)
         val spotifyAuthResponse = AuthorizationClient.getResponse(resultCode, data)
+        // If we receive a valid response, save and move on to the home screen
         spotifyAuthResponse.accessToken?.let { token ->
             MMKV.defaultMMKV().apply {
                 encode(PreferenceKey.AUTH_TOKEN, token)

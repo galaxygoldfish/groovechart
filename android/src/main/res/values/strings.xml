@@ -19,6 +19,7 @@
     <string name="cdesc_icon_view_headline">Three bars</string>
     <string name="cdesc_icon_edit_pen">Edit</string>
     <string name="cdesc_icon_check">Checkmark</string>
+    <string name="cdesc_icon_save">Save</string>
 
     <!-- Welcome activity -->
     <string name="welcome_subtitle">View your Spotify stats, friend activity, and expand your taste through generated playlists</string>
@@ -48,12 +49,12 @@
     <string name="settings_theme_auto">AUTO</string>
     <string name="settings_theme_light">LIGHT</string>
     <string name="settings_theme_dark">DARK</string>
-    <string name="settings_rearrange_header">Homepage layout</string>
     <string name="settings_rearrange_button">Customize homepage</string>
     <string name="settings_account_header">Account</string>
     <string name="settings_homepage_rearrange_header">Homepage layout</string>
     <string name="settings_homepage_rearrange_subtitle">Drag and drop to rearrange items, then hit save at the bottom to update your changes</string>
     <string name="settings_homepage_rearrange_save">Save changes</string>
+    <string name="settings_homepage_rearrange_done">Done</string>
     <string name="settings_homepage_rearrange_genres">Top genres</string>
     <string name="settings_homepage_rearrange_tracks">Top tracks</string>
     <string name="settings_homepage_rearrange_artists">Top artists</string>

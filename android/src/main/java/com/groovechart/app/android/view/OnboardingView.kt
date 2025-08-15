@@ -1,8 +1,6 @@
 package com.groovechart.app.android.view
 
-import android.content.Intent
 import androidx.activity.compose.LocalActivity
-import androidx.activity.result.ActivityResultLauncher
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,8 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.groovechart.app.android.GroovechartTheme
 import com.groovechart.app.android.R
-import com.groovechart.app.android.component.ButtonVariant
 import com.groovechart.app.android.component.LargeButton
+import com.groovechart.app.android.consts.ButtonVariant
 import com.groovechart.app.android.viewmodel.OnboardingViewModel
 
 @Composable

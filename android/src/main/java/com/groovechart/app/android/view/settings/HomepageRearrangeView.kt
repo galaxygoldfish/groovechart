@@ -1,5 +1,6 @@
-package com.groovechart.app.android.view
+package com.groovechart.app.android.view.settings
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,7 +17,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
-import androidx.compose.material3.SliderState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -47,10 +47,10 @@ import com.groovechart.app.android.GroovechartTheme
 import com.groovechart.app.android.component.LargeHeader
 import com.groovechart.app.android.R
 import com.groovechart.app.android.component.ActionButton
-import com.groovechart.app.android.component.ButtonSize
-import com.groovechart.app.android.component.ButtonVariant
 import com.groovechart.app.android.component.ChipButton
 import com.groovechart.app.android.component.LargeButton
+import com.groovechart.app.android.consts.ButtonSize
+import com.groovechart.app.android.consts.ButtonVariant
 import com.groovechart.app.android.consts.NavDestinationKey
 import com.groovechart.app.android.consts.PreferenceKey
 import com.groovechart.app.android.consts.RearrangeHomeSection
@@ -63,8 +63,8 @@ import kotlin.math.roundToInt
 fun HomepageRearrangeView(navController: NavController) {
     val viewModel: SettingsViewModel = viewModel()
     val context = LocalContext.current
-    val lazyListState = rememberLazyListState()
     val haptics = LocalHapticFeedback.current
+    val lazyListState = rememberLazyListState()
     val reorderableLazyListState = rememberReorderableLazyListState(lazyListState) { from, to ->
         haptics.performHapticFeedback(HapticFeedbackType.GestureEnd)
         viewModel.arrangementOrder = viewModel.arrangementOrder.toMutableList().apply {
@@ -75,7 +75,7 @@ fun HomepageRearrangeView(navController: NavController) {
         viewModel.fetchArrangementOrder(context)
     }
     GroovechartTheme {
-        if (viewModel.showEditRearrangeSectionDialog) {
+        AnimatedVisibility(viewModel.showEditRearrangeSectionDialog) {
             Dialog(
                 onDismissRequest = {
                     viewModel.showEditRearrangeSectionDialog = false
@@ -94,10 +94,7 @@ fun HomepageRearrangeView(navController: NavController) {
                 val timescaleMedium = stringResource(R.string.settings_timescale_medium)
                 var currentEditCategoryTime by remember {
                     mutableStateOf(
-                        viewModel.mmkv.decodeString(
-                            currentEditCategoryTimeKey,
-                            timescaleMedium
-                        )
+                        viewModel.mmkv.decodeString(currentEditCategoryTimeKey, timescaleMedium)
                     )
                 }
                 val currentEditCategoryAmountKey = when (viewModel.currentRearrangeSectionEditing) {
@@ -189,7 +186,7 @@ fun HomepageRearrangeView(navController: NavController) {
                         modifier = Modifier.padding(horizontal = 20.dp)
                     )
                     LargeButton(
-                        text = stringResource(R.string.settings_homepage_rearrange_save),
+                        text = stringResource(R.string.settings_homepage_rearrange_done),
                         icon = painterResource(R.drawable.icon_check),
                         contentDescription = stringResource(R.string.cdesc_icon_check),
                         variant = ButtonVariant.FILLED,
@@ -219,7 +216,7 @@ fun HomepageRearrangeView(navController: NavController) {
                     LargeHeader(
                         text = stringResource(R.string.settings_homepage_rearrange_header),
                         onBackClick = {
-                            navController.navigate(NavDestinationKey.Settings)
+                            navController.popBackStack()
                         }
                     )
                     Text(
@@ -250,8 +247,8 @@ fun HomepageRearrangeView(navController: NavController) {
                 }
                 LargeButton(
                     text = stringResource(R.string.settings_homepage_rearrange_save),
-                    icon = painterResource(R.drawable.icon_edit_pen),
-                    contentDescription = stringResource(R.string.cdesc_icon_edit_pen),
+                    icon = painterResource(R.drawable.icon_save),
+                    contentDescription = stringResource(R.string.cdesc_icon_save),
                     variant = 0,
                     onClick = {
                         viewModel.saveArrangementPreferences()

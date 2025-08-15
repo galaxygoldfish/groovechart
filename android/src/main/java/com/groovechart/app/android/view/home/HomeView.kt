@@ -1,17 +1,14 @@
-package com.groovechart.app.android.view
+package com.groovechart.app.android.view.home
 
-import android.util.Log
 import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ContentTransform
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideIn
 import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -19,7 +16,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -46,10 +42,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.DialogHost
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import coil.request.ImageResult
 import com.groovechart.app.android.GroovechartTheme
 import com.groovechart.app.android.R
 import com.groovechart.app.android.component.ActionButton
@@ -58,11 +52,12 @@ import com.groovechart.app.android.component.ButtonVariant
 import com.groovechart.app.android.component.LargeButton
 import com.groovechart.app.android.consts.NavDestinationKey
 import com.groovechart.app.android.consts.PageNavigationKey
-import com.groovechart.app.android.view.page.FriendPage
-import com.groovechart.app.android.view.page.HomePage
-import com.groovechart.app.android.view.page.RecommendationPage
+import com.groovechart.app.android.view.home.page.FriendPage
+import com.groovechart.app.android.view.home.page.HomePage
+import com.groovechart.app.android.view.home.page.RecommendationPage
 import com.groovechart.app.android.viewmodel.HomeViewModel
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun HomeView(navController: NavController) {
     GroovechartTheme {
@@ -123,7 +118,11 @@ fun HomeView(navController: NavController) {
                             icon = painterResource(R.drawable.icon_spotify),
                             contentDescription = stringResource(R.string.cdesc_icon_spotify),
                             size = ButtonSize.MEDIUM,
-                            onClick = { /* TODO: Open Spotify */ },
+                            onClick = {
+                                context?.packageManager?.getLaunchIntentForPackage("com.spotify.music")?.apply {
+                                    context.startActivity(this)
+                                }
+                            },
                             modifier = Modifier.padding(top = 20.dp, end = 20.dp)
                         )
                     }
@@ -173,21 +172,32 @@ fun HomeView(navController: NavController) {
                             style = MaterialTheme.typography.displayMedium
                         )
                         AnimatedVisibility(viewModel.currentUser !== null) {
-                            AsyncImage(
-                                model = ImageRequest.Builder(LocalContext.current)
-                                    .data(viewModel.currentUser!!.images[0].url)
-                                    .crossfade(true)
-                                    .build(),
-                                contentDescription = "Profile picture",
-                                modifier = Modifier
-                                    .size(40.dp)
+                            Box(
+                                modifier = Modifier.size(50.dp)
                                     .clip(CircleShape)
-                                    .clickable(
-                                        onClick = {
-                                            viewModel.showAccountDialog = true
-                                        }
-                                    )
-                            )
+                                    .border(
+                                        1.5.dp,
+                                        MaterialTheme.colorScheme.onBackground,
+                                        CircleShape
+                                    ),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                AsyncImage(
+                                    model = ImageRequest.Builder(LocalContext.current)
+                                        .data(viewModel.currentUser!!.images[0].url)
+                                        .crossfade(true)
+                                        .build(),
+                                    contentDescription = "Profile picture",
+                                    modifier = Modifier
+                                        .size(40.dp)
+                                        .clip(CircleShape)
+                                        .clickable(
+                                            onClick = {
+                                                viewModel.showAccountDialog = true
+                                            }
+                                        )
+                                )
+                            }
                         }
                     }
                 },
@@ -268,12 +278,14 @@ fun HomeView(navController: NavController) {
                 },
                 content = { contentPadding ->
                     Column(modifier = Modifier.padding(contentPadding)) {
-                        // Transition where it slides left or right in future
-                        when (viewModel.currentPage) {
-                            PageNavigationKey.Home -> HomePage(viewModel)
-                            PageNavigationKey.Friends -> FriendPage(viewModel)
-                            PageNavigationKey.Recommendations -> RecommendationPage(viewModel)
-                            else -> HomePage(viewModel)
+                        AnimatedContent(
+                            targetState = viewModel.currentPage
+                        ) { targetState ->
+                            when (targetState) {
+                                PageNavigationKey.Home -> HomePage(viewModel)
+                                PageNavigationKey.Friends -> FriendPage(viewModel)
+                                PageNavigationKey.Recommendations -> RecommendationPage(viewModel)
+                            }
                         }
                     }
                 }

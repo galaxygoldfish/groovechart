@@ -9,6 +9,9 @@ import com.spotify.sdk.android.auth.AuthorizationClient
 import com.spotify.sdk.android.auth.AuthorizationRequest
 import com.spotify.sdk.android.auth.AuthorizationResponse
 
+/**
+ * This class handles user authentication using the Spotify Android SDK
+ */
 class SpotifyAuthService {
 
     private val REDIRECT_URI = "groovechart://login"
@@ -22,8 +25,12 @@ class SpotifyAuthService {
         "playlist-modify-private"
     )
 
+    /**
+     * Authenticate the user using the Spotify App. This will open the app to
+     * receive the user's authentication token. Can be used for reauthentication.
+     * @param activityContext The current context (activity)
+     */
     fun launchUserAuthFlow(activityContext: Activity) {
-        Log.e("GROOVECHART", "open login activity")
         val builder = AuthorizationRequest.Builder(
             Credentials.CLIENT_ID,
             AuthorizationResponse.Type.TOKEN,
@@ -31,7 +38,11 @@ class SpotifyAuthService {
         ).setScopes(SCOPES)
             .setShowDialog(true)
             .build()
-        AuthorizationClient.openLoginActivity(activityContext, REQUEST_CODE, builder)
+        AuthorizationClient.openLoginActivity(
+            activityContext,
+            REQUEST_CODE,
+            builder
+        )
     }
 
 }

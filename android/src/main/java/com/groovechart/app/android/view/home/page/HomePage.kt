@@ -1,4 +1,4 @@
-package com.groovechart.app.android.view.page
+package com.groovechart.app.android.view.home.page
 
 import android.util.Log
 import androidx.activity.compose.LocalActivity
@@ -71,7 +71,6 @@ fun HomePage(viewModel: HomeViewModel) {
             )
         }
     ) {
-        // Loading skeleton - update to match rearragement
         AnimatedVisibility(
             visible = !viewModel.loadingDataComplete,
             modifier = Modifier.shimmer(),
@@ -122,7 +121,6 @@ fun HomePage(viewModel: HomeViewModel) {
         ) {
             Column {
                 Spacer(Modifier.height(20.dp))
-                // Add top fade when scrolling
                 Column(
                     modifier = Modifier.padding(horizontal = 20.dp)
                         .verticalScroll(rememberScrollState())

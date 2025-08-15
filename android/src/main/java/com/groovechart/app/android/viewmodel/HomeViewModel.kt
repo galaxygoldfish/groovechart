@@ -4,13 +4,10 @@ import android.app.Activity
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.groovechart.app.android.R
-import com.groovechart.app.android.consts.Credentials
 import com.groovechart.app.android.consts.PageNavigationKey
 import com.groovechart.app.android.consts.PreferenceKey
 import com.groovechart.app.android.network.SpotifyAuthService
@@ -20,9 +17,11 @@ import com.groovechart.app.model.User
 import com.groovechart.app.networking.SpotifyNetworkService
 import com.groovechart.app.networking.consts.TimeRange
 import com.tencent.mmkv.MMKV
+import java.util.Locale
 
 class HomeViewModel : ViewModel() {
 
+    val mmkv = MMKV.defaultMMKV()
     var currentUser: User? by mutableStateOf(null)
     var loadingDataComplete by mutableStateOf(false)
     var showAccountDialog by mutableStateOf(false)
@@ -30,9 +29,11 @@ class HomeViewModel : ViewModel() {
     var topGenreList by mutableStateOf(listOf<String>())
     var topSongList by mutableStateOf(listOf<Song>())
     var topArtistList by mutableStateOf(listOf<Artist>())
-    val mmkv = MMKV.defaultMMKV()
     var arrangementOrder: List<String> by mutableStateOf(emptyList())
 
+    /**
+     * Get the most updated home page item arrangement order from MMKV.
+     */
     fun fetchArrangementOrder(activityContext: Activity) {
         val topTracks = activityContext.getString(R.string.settings_homepage_rearrange_tracks)
         val topArtists = activityContext.getString(R.string.settings_homepage_rearrange_artists)
@@ -44,12 +45,14 @@ class HomeViewModel : ViewModel() {
         arrangementOrder = orderDecoded.substring(1, orderDecoded.length - 1).split(",")
     }
 
+    /**
+     * The main request function, gets top artists, tracks, genres from Spotify API
+     * @param activityContext - The current context
+     */
     suspend fun fetch(activityContext: Activity) {
         loadingDataComplete = false
         val networkService = SpotifyNetworkService()
-
         fetchArrangementOrder(activityContext)
-
         networkService.fetchUserDetails(
             mmkv.decodeString(PreferenceKey.AUTH_TOKEN) ?: "",
             onSuccess = {
@@ -64,7 +67,6 @@ class HomeViewModel : ViewModel() {
                 SpotifyAuthService().launchUserAuthFlow(activityContext)
             }
         )
-
         networkService.fetchTopGenres(
             mmkv.decodeString(PreferenceKey.AUTH_TOKEN) ?: "",
             onSuccess = {
@@ -83,7 +85,6 @@ class HomeViewModel : ViewModel() {
                 activityContext = activityContext
             )
         )
-
         networkService.fetchTopTracks(
             mmkv.decodeString(PreferenceKey.AUTH_TOKEN) ?: "",
             onSuccess = {
@@ -102,7 +103,6 @@ class HomeViewModel : ViewModel() {
                 activityContext = activityContext
             )
         )
-
         networkService.fetchTopArtists(
             mmkv.decodeString(PreferenceKey.AUTH_TOKEN) ?: "",
             onSuccess = {
@@ -124,6 +124,12 @@ class HomeViewModel : ViewModel() {
         loadingDataComplete = true
     }
 
+    /**
+     * Converts the readable (month, year, etc) to API-readable time formats (short_term, medium_term, etc.)
+     * @param readable - The readable time format
+     * @param activityContext - The current context
+     * @return - The API-readable time format
+     */
     private fun convertReadableToAPITime(readable: String, activityContext: Activity) : String {
         return when (readable) {
             activityContext.getString(R.string.settings_timescale_short) -> TimeRange.SHORT_TERM
@@ -133,13 +139,17 @@ class HomeViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Formats large numbers in social media formatting (e.g. 1000000 -> 1M)
+     * @param number - The number to format
+     * @return - The formatted number as a string
+     */
     fun formatNumberShort(number: Long): String {
         return when {
-            number >= 1_000_000 -> String.format("%.1fM", number / 1_000_000f)
-            number >= 1_000 -> String.format("%.1fK", number / 1_000f)
+            number >= 1_000_000 -> String.format(Locale.US, "%.1fM", number / 1_000_000f)
+            number >= 1_000 -> String.format(Locale.US, "%.1fK", number / 1_000f)
             else -> number.toString()
         }
     }
 
-    
 }

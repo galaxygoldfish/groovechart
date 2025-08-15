@@ -1,4 +1,4 @@
-package com.groovechart.app.android.view.page
+package com.groovechart.app.android.view.home.page
 
 import androidx.compose.runtime.Composable
 import com.groovechart.app.android.viewmodel.HomeViewModel

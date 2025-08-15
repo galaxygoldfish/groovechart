@@ -1,7 +1,7 @@
 package com.groovechart.app.android.consts
 
 /**
- * Constant variables that describe the Composables that can be navigated to
+ * Constant variables that describe the composables that can be navigated to
  * in the entire app-level navigation host.
  */
 object NavDestinationKey {
