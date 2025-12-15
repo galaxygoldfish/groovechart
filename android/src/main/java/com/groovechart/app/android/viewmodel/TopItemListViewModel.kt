@@ -28,6 +28,11 @@ class TopItemListViewModel : ViewModel() {
     val networkService = SpotifyNetworkService()
     val mmkv = MMKV.defaultMMKV()
 
+    /**
+     * Update the list of top tracks in accordance with a given time range
+     * @param timeRange A TimeRange specifying the range to get top tracks from
+     * @param context An activity context used if reauthentication is needed
+     */
     suspend fun fetchTracks(timeRange: String, context: Activity) {
         loadingItems = true
         networkService.fetchTopTracks(
@@ -48,6 +53,11 @@ class TopItemListViewModel : ViewModel() {
         loadingItems = false
     }
 
+    /**
+     * Update the list of top artists in accordance with a given time range
+     * @param timeRange A TimeRange specifying the range to get top artists from
+     * @param context An activity context used if reauthentication is needed
+     */
     suspend fun fetchArtists(timeRange: String, context: Activity) {
         loadingItems = true
         networkService.fetchTopArtists(

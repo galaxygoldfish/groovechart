@@ -132,12 +132,13 @@ fun TopItemListView(navController: NavController, type: String) {
                                                     title = item.name,
                                                     subtitle = formatNumberShort(item.followers!!.total.toLong()) + " followers",
                                                     iconUrl = item.images!![0].url,
-                                                    onClick = { },
+                                                    context = activityContext!!,
                                                     modifier = Modifier.padding(
                                                         horizontal = 20.dp,
                                                         vertical = 5.dp
                                                     ),
-                                                    iconCircular = true
+                                                    iconCircular = true,
+                                                    contentUrl = item.external_urls.spotify
                                                 )
                                             }
                                         }
@@ -148,11 +149,12 @@ fun TopItemListView(navController: NavController, type: String) {
                                                     title = item.name,
                                                     subtitle = item.album.artists[0].name,
                                                     iconUrl = item.album.images[0].url,
-                                                    onClick = { },
                                                     modifier = Modifier.padding(
                                                         horizontal = 20.dp,
                                                         vertical = 5.dp
-                                                    )
+                                                    ),
+                                                    contentUrl = item.external_urls.spotify,
+                                                    context = activityContext!!
                                                 )
                                             }
                                         }

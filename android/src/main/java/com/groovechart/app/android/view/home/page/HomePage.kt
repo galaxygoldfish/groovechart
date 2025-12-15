@@ -161,7 +161,8 @@ fun HomePage(viewModel: HomeViewModel, navController: NavController) {
                                         iconUrl = artist.images!![0].url,
                                         modifier = Modifier.padding(top = 10.dp),
                                         iconCircular = true,
-                                        onClick = { }
+                                        contentUrl = artist.external_urls.spotify,
+                                        context = activityContext!!
                                     )
                                 }
                             }
@@ -190,7 +191,8 @@ fun HomePage(viewModel: HomeViewModel, navController: NavController) {
                                         subtitle = song.album.artists[0].name,
                                         iconUrl = song.album.images[0].url,
                                         modifier = Modifier.padding(top = 10.dp),
-                                        onClick = { }
+                                        contentUrl = song.external_urls.spotify,
+                                        context = activityContext!!
                                     )
                                 }
                             }

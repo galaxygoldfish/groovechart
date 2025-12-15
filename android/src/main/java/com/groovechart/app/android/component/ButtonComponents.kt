@@ -174,6 +174,12 @@ fun ChipButton(
     }
 }
 
+
+/**
+ * Segmented control button with three options for filtering by time range (month, 6 month, year)
+ * @param onSelectionChange Callback invoked when the user selects a new option
+ * @param modifier The modifier to be applied to the control
+ */
 @Composable
 fun TimeRangeSegmentedControl(
     onSelectionChange: (String) -> Unit,

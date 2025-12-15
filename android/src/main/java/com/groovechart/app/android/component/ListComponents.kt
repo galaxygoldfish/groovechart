@@ -1,5 +1,8 @@
 package com.groovechart.app.android.component
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -21,8 +24,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.startActivity
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import androidx.core.net.toUri
 
 /**
  * List item for URL-image based content (tracks, artists, albums, etc.) containing
@@ -39,12 +44,17 @@ fun ContentListItem(
     title: String,
     subtitle: String,
     iconUrl: String,
-    onClick: () -> Unit,
+    contentUrl: String,
+    context: Context,
     modifier: Modifier = Modifier,
     iconCircular: Boolean = false
 ) {
     Row(
-        modifier = modifier.fillMaxWidth().clickable{ onClick() },
+        modifier = modifier.fillMaxWidth()
+            .clickable {
+                val intent = Intent(Intent.ACTION_VIEW, contentUrl.toUri())
+                context.startActivity(intent)
+            },
         verticalAlignment = Alignment.CenterVertically
     ) {
         AsyncImage(
