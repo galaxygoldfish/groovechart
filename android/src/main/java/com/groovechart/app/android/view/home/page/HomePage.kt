@@ -35,12 +35,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.groovechart.app.android.R
 import com.groovechart.app.android.component.ChipButton
 import com.groovechart.app.android.component.ContentListItem
 import com.groovechart.app.android.component.ContentListItemSkeleton
 import com.groovechart.app.android.component.DashedLabelHeader
+import com.groovechart.app.android.consts.NavDestinationKey
 import com.groovechart.app.android.consts.PreferenceKey
+import com.groovechart.app.android.consts.TopItemType
+import com.groovechart.app.android.formatNumberShort
 import com.groovechart.app.android.viewmodel.HomeViewModel
 import com.groovechart.app.networking.consts.TimeRange
 import com.valentinilk.shimmer.shimmer
@@ -48,7 +52,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun HomePage(viewModel: HomeViewModel) {
+fun HomePage(viewModel: HomeViewModel, navController: NavController) {
     val coroutineScope = rememberCoroutineScope()
     val activityContext = LocalActivity.current
     val pullToRefreshState = rememberPullToRefreshState()
@@ -79,7 +83,8 @@ fun HomePage(viewModel: HomeViewModel) {
         ) {
             Column(modifier = Modifier.padding(horizontal = 20.dp)) {
                 Column(
-                    modifier = Modifier.padding(top = 40.dp)
+                    modifier = Modifier
+                        .padding(top = 40.dp)
                         .height(30.dp)
                         .fillMaxWidth(0.7F)
                         .clip(MaterialTheme.shapes.large)
@@ -88,7 +93,8 @@ fun HomePage(viewModel: HomeViewModel) {
                 FlowRow(modifier = Modifier.padding(top = 15.dp)) {
                     repeat(times = 5) {
                         Box(
-                            modifier = Modifier.padding(end = 7.dp, bottom = 7.dp)
+                            modifier = Modifier
+                                .padding(end = 7.dp, bottom = 7.dp)
                                 .height(35.dp)
                                 .fillMaxWidth(0.3F)
                                 .clip(MaterialTheme.shapes.large)
@@ -98,7 +104,8 @@ fun HomePage(viewModel: HomeViewModel) {
                 }
                 repeat(times = 2) {
                     Column(
-                        modifier = Modifier.padding(top = 20.dp, bottom = 10.dp)
+                        modifier = Modifier
+                            .padding(top = 20.dp, bottom = 10.dp)
                             .height(40.dp)
                             .fillMaxWidth()
                             .clip(MaterialTheme.shapes.large)
@@ -122,7 +129,8 @@ fun HomePage(viewModel: HomeViewModel) {
             Column {
                 Spacer(Modifier.height(20.dp))
                 Column(
-                    modifier = Modifier.padding(horizontal = 20.dp)
+                    modifier = Modifier
+                        .padding(horizontal = 20.dp)
                         .verticalScroll(rememberScrollState())
                 ) {
                     viewModel.arrangementOrder.forEach { currentItem ->
@@ -137,7 +145,11 @@ fun HomePage(viewModel: HomeViewModel) {
                                             "month"
                                         )!!.lowercase()
                                     ),
-                                    onButtonClick = { /* Handle edit click */ },
+                                    onButtonClick = {
+                                        navController.navigate(
+                                            "${NavDestinationKey.TopItemList}/${TopItemType.ARTISTS}"
+                                        )
+                                    },
                                     icon = painterResource(R.drawable.icon_arrow_forward),
                                     contentDescription = stringResource(R.string.cdesc_icon_arrow_forward),
                                     modifier = Modifier.padding(top = 20.dp)
@@ -145,7 +157,7 @@ fun HomePage(viewModel: HomeViewModel) {
                                 viewModel.topArtistList.forEach { artist ->
                                     ContentListItem(
                                         title = artist.name,
-                                        subtitle = viewModel.formatNumberShort(artist.followers!!.total.toLong()) + " followers",
+                                        subtitle = formatNumberShort(artist.followers!!.total.toLong()) + " followers",
                                         iconUrl = artist.images!![0].url,
                                         modifier = Modifier.padding(top = 10.dp),
                                         iconCircular = true,
@@ -163,7 +175,11 @@ fun HomePage(viewModel: HomeViewModel) {
                                             "month"
                                         )!!.lowercase()
                                     ),
-                                    onButtonClick = { /* Handle edit click */ },
+                                    onButtonClick = {
+                                        navController.navigate(
+                                            "${NavDestinationKey.TopItemList}/${TopItemType.TRACKS}"
+                                        )
+                                    },
                                     icon = painterResource(R.drawable.icon_arrow_forward),
                                     contentDescription = stringResource(R.string.cdesc_icon_arrow_forward),
                                     modifier = Modifier.padding(top = 20.dp)

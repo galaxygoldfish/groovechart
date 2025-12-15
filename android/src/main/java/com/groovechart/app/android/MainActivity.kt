@@ -20,6 +20,7 @@ import com.groovechart.app.android.view.AuthenticationFailView
 import com.groovechart.app.android.view.home.HomeView
 import com.groovechart.app.android.view.settings.HomepageRearrangeView
 import com.groovechart.app.android.view.OnboardingView
+import com.groovechart.app.android.view.home.TopItemListView
 import com.groovechart.app.android.view.settings.SettingsView
 import com.spotify.sdk.android.auth.AuthorizationClient
 import com.tencent.mmkv.MMKV
@@ -71,6 +72,14 @@ class MainActivity : ComponentActivity() {
             }
             composable(NavDestinationKey.HomepageRearrange) {
                 HomepageRearrangeView(navigationController)
+            }
+            composable("""${NavDestinationKey.TopItemList}/{type}""") {
+                it.arguments?.getString("type")?.let { type ->
+                    TopItemListView(
+                        navController = navigationController,
+                        type = type
+                    )
+                }
             }
         }
     }

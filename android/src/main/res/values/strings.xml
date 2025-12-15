@@ -35,6 +35,13 @@
     <string name="home_page_artist_header">Top artists</string>
     <string name="home_page_past_template">(past %1$s)</string>
 
+    <!-- Top item view -->
+    <string name="top_item_title_tracks">Top tracks</string>
+    <string name="top_item_title_artists">Top artists</string>
+    <string name="top_item_time_short">Month</string>
+    <string name="top_item_time_medium">6 months</string>
+    <string name="top_item_time_long">Year</string>
+
     <string-array name="home_nav_labels">
         <item>Home</item>
         <item>Friends</item>

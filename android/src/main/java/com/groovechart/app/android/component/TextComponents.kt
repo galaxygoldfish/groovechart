@@ -28,16 +28,19 @@ import com.groovechart.app.android.consts.ButtonSize
  * Custom top app bar that contains a page title and back navigation button
  * @param text The title of the page
  * @param onBackClick The action to perform when the back button is clicked
+ * @param twoLine Whether the title is below the back button (true) or in line with it (false)
  */
 @Composable
 fun LargeHeader(
     text: String,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    twoLine: Boolean = true
 ) {
-    Column {
+    @Composable
+    fun LargeHeaderContent() {
         IconButton(
             onClick = onBackClick,
-            modifier = Modifier.padding(top = 20.dp, start = 7.dp)
+            modifier = Modifier.padding(start = 7.dp)
         ) {
             Icon(
                 painter = painterResource(R.drawable.icon_arrow_back),
@@ -48,8 +51,23 @@ fun LargeHeader(
         Text(
             text = text,
             style = MaterialTheme.typography.displayMedium,
-            modifier = Modifier.padding(top = 5.dp, start = 20.dp)
+            modifier = Modifier.padding(
+                top = if (twoLine) 5.dp else 0.dp,
+                start = if (twoLine) 20.dp else 15.dp
+            )
         )
+    }
+    if (twoLine) {
+        Column(modifier = Modifier.padding(top = 20.dp)) {
+            LargeHeaderContent()
+        }
+    } else {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(top = 20.dp)
+        ) {
+            LargeHeaderContent()
+        }
     }
 }
 

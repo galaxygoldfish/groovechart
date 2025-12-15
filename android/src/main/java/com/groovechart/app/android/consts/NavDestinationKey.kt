@@ -10,4 +10,5 @@ object NavDestinationKey {
     const val AuthenticationFail = "authentication-fail"
     const val Settings = "settings"
     const val HomepageRearrange = "homepage-rearrange"
+    const val TopItemList = "top-item-list"
 }

@@ -1,5 +1,6 @@
 package com.groovechart.app.android.component
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -10,19 +11,31 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.groovechart.app.android.R
 import com.groovechart.app.android.consts.ButtonSize
 import com.groovechart.app.android.consts.ButtonVariant
+import com.groovechart.app.networking.consts.TimeRange
 
 /**
  * Square, filled icon button with filled container, permitting multiple sizes
@@ -158,5 +171,62 @@ fun ChipButton(
             modifier = Modifier.padding(8.dp),
             color = if (selected) MaterialTheme.colorScheme.inverseOnSurface else MaterialTheme.colorScheme.onSurface
         )
+    }
+}
+
+@Composable
+fun TimeRangeSegmentedControl(
+    onSelectionChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var currentSelection by remember { mutableIntStateOf(0) }
+    val options = listOf(
+        stringResource(R.string.top_item_time_short),
+        stringResource(R.string.top_item_time_medium),
+        stringResource(R.string.top_item_time_long)
+    )
+    Row(
+        modifier = modifier.fillMaxWidth()
+            .border(
+                width = (1.5).dp,
+                color = MaterialTheme.colorScheme.onBackground,
+                shape = RoundedCornerShape(6.dp)
+            ),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        options.forEachIndexed { index, optionText ->
+            Button(
+                onClick = {
+                    currentSelection = index
+                    onSelectionChange(
+                        when (optionText) {
+                            options[0] -> TimeRange.SHORT_TERM
+                            options[1] -> TimeRange.MEDIUM_TERM
+                            else -> TimeRange.LONG_TERM
+                        }
+                    )
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (currentSelection == index) {
+                        MaterialTheme.colorScheme.onBackground
+                    } else {
+                        Color.Transparent
+                    }
+                ),
+                shape = MaterialTheme.shapes.small,
+                modifier = Modifier.padding(horizontal = 5.dp)
+            ) {
+                Text(
+                    text = optionText.uppercase(),
+                    color = if (currentSelection == index) {
+                        MaterialTheme.colorScheme.background
+                    } else {
+                        MaterialTheme.colorScheme.onBackground
+                    },
+                    style = MaterialTheme.typography.labelLarge
+                )
+            }
+        }
     }
 }

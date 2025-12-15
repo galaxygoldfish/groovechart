@@ -47,9 +47,9 @@ import coil.request.ImageRequest
 import com.groovechart.app.android.GroovechartTheme
 import com.groovechart.app.android.R
 import com.groovechart.app.android.component.ActionButton
-import com.groovechart.app.android.component.ButtonSize
-import com.groovechart.app.android.component.ButtonVariant
 import com.groovechart.app.android.component.LargeButton
+import com.groovechart.app.android.consts.ButtonSize
+import com.groovechart.app.android.consts.ButtonVariant
 import com.groovechart.app.android.consts.NavDestinationKey
 import com.groovechart.app.android.consts.PageNavigationKey
 import com.groovechart.app.android.view.home.page.FriendPage
@@ -282,7 +282,7 @@ fun HomeView(navController: NavController) {
                             targetState = viewModel.currentPage
                         ) { targetState ->
                             when (targetState) {
-                                PageNavigationKey.Home -> HomePage(viewModel)
+                                PageNavigationKey.Home -> HomePage(viewModel, navController)
                                 PageNavigationKey.Friends -> FriendPage(viewModel)
                                 PageNavigationKey.Recommendations -> RecommendationPage(viewModel)
                             }

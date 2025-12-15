@@ -252,7 +252,7 @@ fun HomepageRearrangeView(navController: NavController) {
                     variant = 0,
                     onClick = {
                         viewModel.saveArrangementPreferences()
-                        navController.navigate(NavDestinationKey.Settings)
+                        navController.popBackStack()
                     },
                     modifier = Modifier.padding(horizontal = 20.dp)
                 )
